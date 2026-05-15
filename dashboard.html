@@ -484,5 +484,54 @@ buildQtrDropdown();
 buildMgrDropdown();
 renderAll();
 </script>
+
+<div id="pw-overlay" style="position:fixed;inset:0;background:#f4f4f2;z-index:9999;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:12px;padding:40px 48px;border:0.5px solid #e0e0e0;box-shadow:0 8px 32px rgba(42,89,59,.10);text-align:center;max-width:380px;width:90%">
+    <img src="data:image/png;base64,{}" style="height:36px;margin-bottom:24px" alt="VFV">
+    <div style="font-size:22px;font-weight:700;color:#2A593B;margin-bottom:6px">Portfolio Dashboard</div>
+    <div style="font-size:12px;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:28px">Intern werkdocument</div>
+    <input id="pw-input" type="password" placeholder="Voer wachtwoord in"
+      style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box">
+    <button onclick="checkPw()"
+      style="width:100%;padding:10px;background:#2A593B;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.03em">
+      Toegang
+    </button>
+    <div id="pw-error" style="color:#D85A30;font-size:12px;margin-top:10px;display:none">Wachtwoord onjuist. Probeer opnieuw.</div>
+  </div>
+</div>
+<script>
+(function(){
+  var HASH = 'e51cc41965f3d7f9a4a47614ea298b8fac71cced886c5cb83af50c2aa74a1c24';
+  var SESSION_KEY = 'vfv_auth';
+  function sha256(str){
+    // Simple check against stored hash using SubtleCrypto
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str))
+      .then(function(buf){
+        return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+      });
+  }
+  // Check session
+  if(sessionStorage.getItem(SESSION_KEY) === 'ok'){
+    document.getElementById('pw-overlay').style.display='none';
+  }
+  window.checkPw = function(){
+    var val = document.getElementById('pw-input').value;
+    sha256(val).then(function(hash){
+      if(hash === HASH){
+        sessionStorage.setItem(SESSION_KEY,'ok');
+        document.getElementById('pw-overlay').style.display='none';
+      } else {
+        document.getElementById('pw-error').style.display='block';
+        document.getElementById('pw-input').value='';
+        document.getElementById('pw-input').focus();
+      }
+    });
+  };
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Enter' && document.getElementById('pw-overlay').style.display!=='none') checkPw();
+  });
+})();
+</script>
+
 </body>
 </html>
