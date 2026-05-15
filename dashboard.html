@@ -61,7 +61,11 @@ select.tb-select:focus{border-color:var(--green-bright)}
 .fb.on{background:var(--green-dark);color:var(--white);border-color:var(--green-dark)}
 /* KPI STRIP */
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
-.kpi{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:13px 16px;border-top:3px solid var(--green-bright)}
+.kpi{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:13px 16px;border-top:3px solid var(--green-bright);position:relative}
+.kpi-clickable{cursor:pointer;transition:box-shadow .12s}
+.kpi-clickable:hover{box-shadow:0 4px 12px rgba(42,89,59,.10)}
+.kpi-src{font-size:9px;color:transparent;position:absolute;bottom:6px;left:13px;right:13px;transition:color .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi:hover .kpi-src{color:var(--text-light)}
 .kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);margin-bottom:5px}
 .kpi-value{font-size:22px;font-weight:700;color:var(--text-dark)}
 .kpi-delta{font-size:11px;margin-top:3px}
@@ -125,7 +129,78 @@ select.tb-select:focus{border-color:var(--green-bright)}
 .q-block{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:16px 18px}
 .q-block h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid var(--yellow);display:inline-block}
 .q-text{font-size:12px;color:var(--text-dark);line-height:1.65;white-space:pre-line}
+.kpi-bar{background:var(--bg);border-radius:10px;padding:14px 0 0;margin-bottom:14px}
+.kpi-bar-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 2px}
+.kpi-bar-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-light)}
+.kpi-bar-sub{font-size:11px;color:var(--text-light)}
+.kpi-blocks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.kb{background:var(--white);border:0.5px solid var(--border);border-radius:10px;padding:13px 15px}
+.kb-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-light);margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid #00D072;display:inline-block}
+.kb-r{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.kb-l{font-size:11px;color:var(--text-mid)}
+.kb-v{font-size:12px;font-weight:700;color:var(--text-dark);text-align:right;white-space:nowrap}
+.kb-vg{color:#2A593B}.kb-vr{color:#D85A30}.kb-vm{color:var(--text-light);font-weight:400;font-size:11px}
+.kb-sep{height:0.5px;background:var(--border);margin:7px 0}
+.kb-tr{display:flex;justify-content:space-between;align-items:center;padding-top:6px;border-top:0.5px solid var(--border);margin-top:4px}
+.kb-big{font-size:17px;font-weight:700;color:var(--text-dark);display:flex;align-items:center;gap:5px}
+.kb-pulse{width:7px;height:7px;border-radius:50%;flex-shrink:0;animation:kbp 2s infinite}
+.kbp-y{background:#FFCC00}.kbp-r{background:#E24B4A}.kbp-g{background:#00D072}
+@keyframes kbp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(1.8)}}
+.kb-tw{position:relative;height:5px;background:var(--border);border-radius:3px;margin:8px 0 4px}
+.kb-tf{height:5px;border-radius:3px;position:absolute;top:0;left:0}
+.kb-tm{position:absolute;top:-4px;width:1.5px;height:13px;background:#BBBBBB;border-radius:1px}
+.kb-tl{position:absolute;top:14px;font-size:9px;color:var(--text-light);transform:translateX(-50%);white-space:nowrap}
+.kb-ts{height:20px}
+.kb-ft{display:flex;justify-content:space-between;align-items:center;margin-top:7px}
+.kb-badge{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600}
+.kb-bg{background:#EAF3DE;color:#27500A}.kb-ba{background:#FAEEDA;color:#633806}.kb-br{background:#FCEBEB;color:#A32D2D}
+.kb-st{font-size:10px;font-weight:700}
+.kb-sg{color:#2A593B}.kb-sa{color:#BA7517}.kb-sr{color:#D85A30}
+.kb-sh{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);margin:8px 0 4px}
+
 .no-results{text-align:center;padding:40px;color:var(--text-light);font-size:13px}
+.fw-tooltip{position:fixed;z-index:9998;background:var(--white);border:0.5px solid var(--border);
+  border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:0;min-width:340px;max-width:440px;
+  pointer-events:none;display:none;font-size:12px;overflow:hidden}
+.fw-tooltip-head{background:#1F3864;color:#fff;padding:10px 14px;font-weight:700;font-size:13px}
+.fw-tooltip-head .fw-tt-delta{font-size:11px;font-weight:400;opacity:.85;margin-top:2px}
+.fw-tooltip-body{padding:8px 0}
+.fw-tt-row{display:grid;grid-template-columns:3fr 1fr 1fr;gap:0;padding:5px 14px;border-bottom:0.5px solid #f0f0f0}
+.fw-tt-row:last-child{border-bottom:none}
+.fw-tt-row.inv-section{background:#F0F7FF;border-top:1px solid #BDD7EE;padding-top:8px;margin-top:4px}
+.fw-tt-label{color:var(--text-mid)}
+.fw-tt-val{text-align:right;font-weight:600;color:var(--text-dark)}
+.fw-tt-delta-cell{text-align:right;font-size:11px}
+.fw-tt-delta-pos{color:#1D9E75}.fw-tt-delta-neg{color:#D85A30}.fw-tt-delta-neu{color:#888}
+.fw-tt-inv-head{grid-column:1/-1;font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;color:#185FA5;padding-bottom:3px}
+.fw-tt-inv-name{color:var(--text-dark);font-weight:600}
+.fw-tt-inv-amt{text-align:right;color:#2A593B;font-weight:600}
+.fw-tt-inv-fv{text-align:right;font-size:11px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding-top:60px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:12px;width:90%;max-width:860px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.18)}
+.modal-head{background:var(--green-dark);color:var(--white);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:12px 12px 0 0;position:sticky;top:0;z-index:1}
+.modal-head h2{font-size:15px;font-weight:700}
+.modal-close{background:none;border:none;color:var(--white);font-size:20px;cursor:pointer;line-height:1;padding:0 4px}
+.modal-body{padding:20px}
+.modal-section{margin-bottom:20px}
+.modal-section h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid var(--green-bright);display:inline-block}
+.dp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px}
+.dp-card{background:var(--bg);border-radius:8px;padding:10px 12px;border:0.5px solid var(--border)}
+.dp-card-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-light);margin-bottom:4px}
+.dp-card-value{font-size:18px;font-weight:700;color:var(--text-dark)}
+.dp-card.accent{background:var(--green-dark)}
+.dp-card.accent .dp-card-label{color:rgba(255,255,255,.7)}
+.dp-card.accent .dp-card-value{color:var(--white)}
+.dp-card-minus{background:#FEF3F2;border:0.5px solid #FCA5A5}
+.dp-card-minus .dp-card-label{color:#991B1B}
+.dp-card-minus .dp-card-value{color:#DC2626}
+.kpi-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.kpi-tbl th{background:var(--green-dark);color:var(--white);padding:7px 10px;text-align:left;font-size:11px;font-weight:700}
+.kpi-tbl td{padding:6px 10px;border-bottom:0.5px solid var(--border)}
+.kpi-tbl tr:last-child td{border-bottom:none}
+.kpi-tbl tr:nth-child(even) td{background:var(--bg)}
 </style>
 </head>
 <body>
@@ -163,7 +238,6 @@ select.tb-select:focus{border-color:var(--green-bright)}
       <button class="fb" data-f="Built Env.">Built Env.</button>
       <button class="fb" data-f="Out of Scope">Out of Scope</button>
     </div>
-    <span style="font-size:10px;color:var(--text-light)">meerdere tegelijk mogelijk</span>
   </div>
   <div class="toolbar-sep"></div>
   <div class="toolbar-group">
@@ -174,6 +248,7 @@ select.tb-select:focus{border-color:var(--green-bright)}
   </div>
 </div>
 <div class="kpis" id="kpi-strip"></div>
+<div id="kpi-bar"></div>
 <div class="view active" id="view-overview">
   <div class="section-bar"><div class="section-title">Actieve investeringen</div><div class="section-bar-line"></div></div>
   <div class="grid" id="active-grid"></div>
@@ -185,10 +260,40 @@ select.tb-select:focus{border-color:var(--green-bright)}
   <button class="back-btn" onclick="showOverview()">&#8592; Terug naar overzicht</button>
   <div id="detail-content"></div>
 </div>
+
+<!-- DRY POWDER MODAL -->
+<div class="modal-overlay" id="dp-modal" onclick="if(event.target===this)closeDpModal()">
+  <div class="modal">
+    <div class="modal-head"><h2>Dry Powder — details & trendlijn</h2><button class="modal-close" onclick="closeDpModal()">&#x2715;</button></div>
+    <div class="modal-body" id="dp-modal-body"></div>
+  </div>
+</div>
+
+<!-- SHARED FLOATING TOOLTIP (fondswaarde grafiek + tabel) -->
+<div id="fw-tooltip" class="fw-tooltip" role="tooltip"></div>
+
+<!-- FONDSWAARDE MODAL -->
+<div class="modal-overlay" id="fw-modal" onclick="if(event.target===this)closeFwModal()">
+  <div class="modal">
+    <div class="modal-head"><h2>Fondswaarde — opbouw &amp; trendlijn</h2><button class="modal-close" onclick="closeFwModal()">&#x2715;</button></div>
+    <div class="modal-body" id="fw-modal-body"></div>
+  </div>
+</div>
+
+<!-- KPI DRILLDOWN MODAL -->
+<div class="modal-overlay" id="kpi-modal" onclick="if(event.target===this)closeKpiModal()">
+  <div class="modal">
+    <div class="modal-head"><h2 id="kpi-modal-title">Details</h2><button class="modal-close" onclick="closeKpiModal()">&#x2715;</button></div>
+    <div class="modal-body" id="kpi-modal-body"></div>
+  </div>
+</div>
+
 </div>
 <script>
-const FUND      = {"all_quarters": ["2019-12", "2020-03", "2020-06", "2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2023-09", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "latest_quarter": "2026-03", "quarterly_totals": {"2019-12": {"fv": 1163.0, "inv": 1163.0, "cash": 2.0, "tv": 1165.0, "n": 7}, "2020-03": {"fv": 1217.0, "inv": 1217.0, "cash": 23.0, "tv": 1240.0, "n": 7}, "2020-06": {"fv": 1432.0, "inv": 1432.0, "cash": 45.0, "tv": 1477.0, "n": 7}, "2020-09": {"fv": 2344.0, "inv": 2344.0, "cash": 83.0, "tv": 2427.0, "n": 8}, "2020-12": {"fv": 3369.0, "inv": 3369.0, "cash": 100.0, "tv": 3469.0, "n": 9}, "2021-03": {"fv": 3473.0, "inv": 3473.0, "cash": 131.0, "tv": 3604.0, "n": 9}, "2021-06": {"fv": 3823.0, "inv": 3823.0, "cash": 156.0, "tv": 3979.0, "n": 9}, "2021-09": {"fv": 3966.0, "inv": 3966.0, "cash": 181.0, "tv": 4147.0, "n": 9}, "2021-12": {"fv": 4623.0, "inv": 4441.0, "cash": 207.0, "tv": 4830.0, "n": 9}, "2023-09": {"fv": 1713.0, "inv": 1713.0, "cash": 1.0, "tv": 1714.0, "n": 5}, "2023-12": {"fv": 10151.0, "inv": 6150.0, "cash": 523.0, "tv": 10674.0, "n": 11}, "2024-03": {"fv": 10605.0, "inv": 6375.0, "cash": 1074.0, "tv": 11679.0, "n": 11}, "2024-06": {"fv": 12108.0, "inv": 7265.0, "cash": 1079.0, "tv": 13187.0, "n": 12}, "2024-09": {"fv": 13608.0, "inv": 7677.0, "cash": 1135.0, "tv": 14743.0, "n": 12}, "2024-12": {"fv": 14548.0, "inv": 8610.0, "cash": 1139.0, "tv": 15687.0, "n": 13}, "2025-03": {"fv": 13597.0, "inv": 8975.0, "cash": 1153.0, "tv": 14750.0, "n": 14}, "2025-06": {"fv": 13768.0, "inv": 9233.0, "cash": 1198.0, "tv": 14966.0, "n": 14}, "2025-09": {"fv": 14593.0, "inv": 11099.0, "cash": 2184.0, "tv": 16777.0, "n": 17}, "2025-12": {"fv": 16672.0, "inv": 12723.0, "cash": 3659.0, "tv": 20331.0, "n": 18}, "2026-03": {"fv": 17182.0, "inv": 13238.0, "cash": 3710.0, "tv": 20892.0, "n": 21}}, "total_fv": 17182, "total_tv": 20892, "total_inv": 13238, "total_cash": 3710, "fv_delta_pct": 3.1, "n_actief": 16, "n_exit": 2, "n_default": 3, "dry_powder": 4877, "generated_at": "15-05-2026 07:25"};
-const COMPANIES = [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Exit", "manager": "Johan", "rvo": "Nee", "since": "Jan 2020", "own": "—", "fv": 0.0, "inv": 1030.0, "cash": 2031.0, "waarde": 2031.0, "delta": 1001.0, "multiple": "2.0x", "active": false, "sparkLabels": ["2019-12", "2020-03", "2020-06", "2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [1.0, 1.0, 13.0, 342.0, 702.0, 769.0, 769.0, 769.0, 1247.0, 1358.0, 1730.0, 1430.0, 1618.0, 1482.0, 1482.0, 1414.0, 1454.0, 0.0, 0.0], "revLabels": ["2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-12", "2026-03", "2026-06", "2026-09", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Exit", "manager": "Johan", "rvo": "Nee", "since": "Dec 2019", "own": "—", "fv": 0.0, "inv": 312.0, "cash": 323.0, "waarde": 323.0, "delta": 11.0, "multiple": "1.0x", "active": false, "sparkLabels": ["2019-12", "2020-03", "2020-06", "2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [137.0, 137.0, 137.0, 137.0, 137.0, 137.0, 137.0, 137.0, 230.0, 136.0, 129.0, 123.0, 117.0, 101.0, 101.0, 91.0, 82.0, 0.0, 0.0], "revLabels": ["2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-03", "2026-06", "2026-09", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "manager": "Sander", "rvo": "Nee", "since": "Sep 2020", "own": "—", "fv": 729.0, "inv": 1846.0, "cash": 0.0, "waarde": 729.0, "delta": -1117.0, "multiple": "0.4x", "active": true, "sparkLabels": ["2019-12", "2020-03", "2020-06", "2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [500.0, 500.0, 500.0, 544.0, 619.0, 619.0, 619.0, 694.0, 1019.0, 3147.0, 3314.0, 3787.0, 2154.0, 2154.0, 656.0, 656.0, 729.0, 729.0, 729.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [38.3, 38.3, 38.3, 38.3, 38.3, 38.3, 38.3, 38.3, 38.3, 38.3], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "", "vf_kort": "Weer in een neutrale relatie komen waarbij ValueFactory standaard maandelijks geïnformeerd wordt over de stand van zaken", "vf_mid": "Indien Pera verkoopbaar wordt, actief op zoek gaan naar potentiële exit partijen", "strategie": "Pera heeft moeite om product-market fit te vinden in de HR sector, waardoor omzetgroei achterblijft. Daarom heeft Pera gekozen voor een pivot waarbij het op basis van de verzamelde data fraude risico's in kaart wil brengen voor verzekeraars. De communicatie met de CEO is moeizaam en in het verleden zijn suggesties van Value Factory om de koers te wijzigen genegeerd. De investering past ook niet langer binnen de focus. Om deze reden staat Value Factory open voor verkoop van het belang. Er zal niet worden doorgeïnvesteerd.", "updated": "31-03-2026"}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Default", "manager": "Johan", "rvo": "Nee", "since": "Sep 2020", "own": "—", "fv": 0.0, "inv": 903.0, "cash": 451.0, "waarde": 451.0, "delta": -452.0, "multiple": "0.5x", "active": false, "sparkLabels": ["2019-12", "2020-03", "2020-06", "2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [150.0, 150.0, 350.0, 350.0, 500.0, 500.0, 500.0, 525.0, 625.0, 1498.0, 1049.0, 1049.0, 1150.0, 1535.0, 1535.0, 1257.0, 0.0, 0.0, 0.0], "revLabels": ["2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-12", "2026-03", "2026-06", "2026-09", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "manager": "Peter", "rvo": "Nee", "since": "Apr 2022", "own": "—", "fv": 0.0, "inv": 252.0, "cash": 0.0, "waarde": 0.0, "delta": -252.0, "multiple": "0.0x", "active": false, "sparkLabels": ["2019-12", "2020-03", "2020-06", "2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [50.0, 104.0, 107.0, 192.0, 195.0, 202.0, 202.0, 243.0, 211.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "manager": "Jolanda", "rvo": "Nee", "since": "Dec 2019", "own": "—", "fv": 1257.0, "inv": 961.0, "cash": 0.0, "waarde": 1257.0, "delta": 296.0, "multiple": "1.3x", "active": true, "sparkLabels": ["2019-12", "2020-03", "2020-06", "2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [150.0, 150.0, 150.0, 150.0, 150.0, 150.0, 500.0, 500.0, 193.0, 843.0, 843.0, 843.0, 843.0, 793.0, 793.0, 793.0, 972.0, 1257.0, 1257.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [233265.9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [420965.0, 253529.0, 266611.0, 280238.0, 295770.0, 313950.0, 332800.0, 352254.0, 371583.0, 390492.0], "burnActual": [31472.2, 0.0, 0.0, 0.0, 0.0, 173400.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [33269.0, 31018.0, 35596.0, 26013.0, 23800.0, -152963.0, 16818.0, 12931.0, 8880.0, 4726.0], "kortetermijn": "Doel = break-even bij 135 fridges + betere unit economics\nGo-to-market = partnerships (B2B distributie)\nKern KPI = profitability per fridge (niet alleen groei)\nUpside = extra revenue per locatie (media/catering)", "vf_kort": "Opschaling via tenders helpen succesvol krijgen, helpen de retailmedia strategie te implementeren. Mogelijkheden Healthy Food Wall bepalen.", "vf_mid": "Break-even krijgen en dan exitmogelijkheden bekijken", "strategie": "HealthyFridge exploiteert circa 100 fridgesmet vers grab-&-go eten, vooral in kantoren en ziekenhuizen (ca. 90 vorig jaar), met een plan richting ~135 fridgesom in 2026 breakeven te draaien. Groei komt vooral via partnerships met cateraars en coffee vendors, gecombineerd met verbetering van de unit economicsper fridge. Extra waarde komt uit vergadercatering, self-servicefridgesen media-inkomsten; risico’s zijn lange salescycli, rendement per locatie en financiering van nieuwe fridges.", "updated": "31-03-2026"}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Default", "manager": "Jacco", "rvo": "Nee", "since": "Mar 2022", "own": "—", "fv": 0.0, "inv": 538.0, "cash": 1.0, "waarde": 1.0, "delta": -537.0, "multiple": "0.0x", "active": false, "sparkLabels": ["2019-12", "2020-03", "2020-06", "2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2022-03", "2022-06", "2022-09", "2022-12", "2023-03", "2023-06", "2023-09", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [175.0, 175.0, 175.0, 429.0, 466.0, 496.0, 496.0, 498.0, 498.0, 538.0, 538.0, 538.0, 538.0, 538.0, 538.0, 538.0, 655.0, 655.0, 838.0, 60.0, 60.0, 60.0, 60.0, 60.0, 0.0, 0.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "- Sluiten van de pilotfarm.", "vf_kort": "- Zo min mogelijk tijd aanbesteden.", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "manager": "Jacco", "rvo": "Nee", "since": "May 2021", "own": "—", "fv": 496.0, "inv": 428.0, "cash": 2.0, "waarde": 498.0, "delta": 70.0, "multiple": "1.2x", "active": true, "sparkLabels": ["2020-09", "2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2022-03", "2022-06", "2022-09", "2022-12", "2023-03", "2023-06", "2023-09", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [200.0, 350.0, 350.0, 350.0, 350.0, 350.0, 350.0, 350.0, 350.0, 350.0, 350.0, 350.0, 350.0, 415.0, 415.0, 415.0, 415.0, 415.0, 415.0, 493.0, 494.0, 496.0, 496.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [34237.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [51300.0, 57700.0, 53800.0, 55000.0, 61300.0, 63800.0, 66300.0, 73800.0, 71300.0, 73800.0], "burnActual": [50795.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [-36000.0, -42300.0, -38200.0, -39100.0, -45400.0, -46700.0, -48400.0, -55200.0, -51900.0, -53700.0], "kortetermijn": "- Aantrekken van nieuw kapitaal\n- 1 a 2 nieuwe klanten per maand", "vf_kort": "- Actief verkennen van fusie met ADI\n- Actief verkennen van fusie met YieldComputer", "vf_mid": "- Verkopen of onderbrengen in grotere geheel (buy-and-build hortistrategie)", "strategie": "Momenteel groeien ze geleidelijk met circa 1–2 nieuwe klanten per maand. In dit tempo duurt het naar verwachting nog minimaal een jaar voordat het bedrijf break-even bereikt. Gezien de huidige groeisnelheid en twijfels over de geschiktheid van de CEO voor de volgende fase, is de intentie om slechts beperkt door te investeren. Tegelijk verkennen we actief strategische opties zoals verkoop of fusie binnen onze bredere horti-strategie, waarbij Corvus onderdeel kan worden van een groter geheel. Hierover zijn met verschillende partijen concreet in gesprek.\nNu is er een beperkte overbrugginginvestering noodzakelijk om de runway met circa vier maanden te verlengen om deze strategische opties te realiseren; zonder deze investering bestaat een reëel faillissementsrisico.", "updated": "31-03-2026"}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "manager": "Jacco", "rvo": "Nee", "since": "Jun 2022", "own": "—", "fv": 1165.0, "inv": 650.0, "cash": 0.0, "waarde": 1165.0, "delta": 515.0, "multiple": "1.8x", "active": true, "sparkLabels": ["2020-12", "2021-03", "2021-06", "2021-09", "2021-12", "2022-03", "2022-06", "2022-09", "2022-12", "2023-03", "2023-06", "2023-09", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [250.0, 250.0, 250.0, 250.0, 250.0, 250.0, 250.0, 250.0, 250.0, 250.0, 250.0, 500.0, 500.0, 500.0, 500.0, 500.0, 756.0, 756.0, 869.0, 869.0, 1165.0, 1165.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [76337.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [82.1, 82.1, 82.1, 82.1, 82.1, 82.1, 82.1, 82.1, 82.1, 82.1], "burnActual": [43112.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "- Aantrekken van nieuw kapitaal\n- Groei naar MRR: x", "vf_kort": "- Actief verkennen van exit aan 30Mhz of aan Ledgnd", "vf_mid": "- Verkopen of onderbrengen in grotere geheel (buy-and-build hortistrategie)", "strategie": "Hoewel Growficient technologisch interessant is, beoordelen wij de schaalbaarheid en marktpositie op langere termijn als beperkt. Het bedrijf opereert in een relatief kleine niche en mist momenteel de schaal om zelfstandig uit te groeien tot een grotere speler. Daarnaast zijn wij kritisch op de geschiktheid van de huidige CEO voor de volgende fase. De strategie is daarom gericht op het verkennen van strategische opties zoals verkoop of integratie in een groter platform, bijvoorbeeld als onderdeel van onze bredere buy-and-buildstrategie binnen de hortisector. Hierover zijn we concreet in gesprek met een mogelijke overname-/fusiepartij.", "updated": "31-03-2026"}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "manager": "Johan", "rvo": "Nee", "since": "May 2023", "own": "—", "fv": 5368.0, "inv": 275.0, "cash": 902.0, "waarde": 6270.0, "delta": 5995.0, "multiple": "22.8x", "active": true, "sparkLabels": ["2023-06", "2023-09", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [225.0, 225.0, 1499.0, 1499.0, 1499.0, 5083.0, 5083.0, 5083.0, 5419.0, 5368.0, 5368.0, 5368.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 447.9, 447.9, 447.9, 447.9, 447.9, 447.9, 447.9, 447.9, 447.9], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [323993.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "- Areaal onboarden\n- Runway verlengen", "vf_kort": "- Dealin.Green ondersteunen door opzetten van downstream markt\n- Postie versterken in aandeelhoudersstructuur (via Supervisory Board of Coalition of the willing)\n- Management monitoren, ontwikkelingen zijn niet overtuigend\n'- (gedeeltelijke) exit via SPV", "vf_mid": "Dealin-Green past qua focus nog steeds heel goed in het Value Factory Portfolio. Alleen de waarde van het bedrijf geeft op dit moment een te hoge afhankelijkheid. Verkoop (of afsplitsing via SPV) van een deel van de aandelen is daarom urgent. Herwaardering moet plaatsvinden in Q4 2025.", "strategie": "Dealin.Green is strategisch goed gepositioneerd is in de opkomende biobased keten door het aanbod van vezelgewassen, teeltbegeleiding en een handelsplatform. De omzetontwikkeling blijft wat achter bij de verwachtingen door (i) teeltproblemen in het seizoen 2024/2025 (slecht weer, lagere groei heeft impact op vertrouwen van boeren), en (ii) de nog beperkte afzet in de downstream-keten. Als Value Factory willen we de positie in de keten versterken, met name door een actievere rol in downstream-activiteiten zoals verwerking en afzet van biobased materialen. Met de recent doorgevoerde directiewissel en een managementteam dat zich op deze volgende fase richt, verwachten wij dat Dealin.Green beter in staat zal zijn om de ketenpositie te versterken en de commerciële uitrol te versnellen.", "updated": "31-03-2026"}, {"name": "Proba", "sector": "Climate", "status": "Actief", "manager": "Sander", "rvo": "Nee", "since": "Jun 2023", "own": "—", "fv": 1240.0, "inv": 915.0, "cash": 0.0, "waarde": 1240.0, "delta": 325.0, "multiple": "1.4x", "active": true, "sparkLabels": ["2023-09", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [100.0, 100.0, 471.0, 686.0, 686.0, 561.0, 918.0, 918.0, 918.0, 1240.0, 1240.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [73000.0, 63000.0, 38000.0, 78000.0, 43000.0, 168000.0, 53000.0, 83000.0, 28000.0, 118000.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [15334.0, 25334.0, 74102.0, 34502.0, 90991.0, -29501.0, 83999.0, 53999.0, 108999.0, 18999.0], "kortetermijn": "Contracten sluiten met 5 must win customers (on track)\nUitwerken hoe het zelf projecten kan doen zonder het volledige risico te hoeven ownen en wat de business case word", "vf_kort": "Challengen & Feedback geven op business case\nManagement scherp houden in prioriteitstelling en sturen op omzetgroei", "vf_mid": "Zorgen dat Proba aantrekkelijk wordt voor Series A investors zodat het verder kan opschalen en meerdere supply chains kan doen naast koffie (via fertilizers) zoals corn en dairy en green ammonia", "strategie": "Proba is bezig om een aantal grote partijen in Amerika en Brazilië aan te sluiten (denk aan Pepsi en Nestlé) die gebruik maken van de Proba ontwikkelde methodologieën en door Proba gecertificeerde carbon credits afnemen. De uitdaging voor Proba is dat veel partijen van hen verwachten dat zij end-to-end oplossingen bieden (dus niet alleen insetting, maar ook projectontwikkeling). Er wordt momenteel uitgezocht hoe Proba die projecten met externe partners kan financieren. Het risico voor Proba is dat de omzet uit carbon credits veelal pas 12 maanden na het project volgt. Voor stevige omzetgroei moeten we nog even geduldig zijn.", "updated": "31-03-2026"}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "manager": "Johan", "rvo": "Ja I", "since": "Jun 2024", "own": "—", "fv": 3753.0, "inv": 1953.0, "cash": 0.0, "waarde": 3753.0, "delta": 1800.0, "multiple": "1.9x", "active": true, "sparkLabels": ["2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [938.0, 982.0, 1358.0, 1358.0, 1358.0, 1358.0, 3753.0, 3753.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "- Reproduceerbaar product valideren\n- 3 Product-Markt Combinaties geselecteerd met onderbouwde value proposition; minimaal 1–3 pilotdeals in concrete gesprekken\n- IP-structuur geborgd: deal-principes vastgelegd met MME en Christiaens\n- Productie- en locatiebesluit genomen: partnerkeuze (MME / eigen / licentie), Veenoord zover mogelijk afgewikkeld\n- Board-ready strategisch plan: basis voor funding-ronde (~€10M)", "vf_kort": "- waardebescherming: voorkomen dat het bedrijf vastloopt. Hiervoor is belangrijk:\n-- directie wisselen\n-- cash runway bewaken\n-- IP blocker oplossen", "vf_mid": "Waardecreatie: het bedrijf investeerbaar en schaalbaar maken", "strategie": "FC-i ontwikkelt en produceert biologisch en circulair isolatiemateriaal voor de bouwsector, gemaakt uit reststromen uit bos-, land- en tuinbouw en versterkt met mycelium om een sterk bio-composiet te vormen. Het bedrijf richt zich op het bewijzen van de technologie en het opschalen van productie. Na een aantal tegenvallers in de pilotfabriek in Veenoord is nu geswitcht naar een productiepartner (MME, Ammerzoden), met als doel een kostenefficiënt en volledig circulair alternatief te bieden voor traditionele (chemische) isolatiematerialen. Belangrijke risico’s liggen in het technisch stabiliseren van het productieproces – met name de schimmelopkweek die cruciaal is voor de productie – het succesvol opschalen van de fabriek, het behalen van certificeringen en het realiseren van voldoende commerciële projecten om de eerste volumes te verkopen.", "updated": "31-03-2026"}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "manager": "Sander", "rvo": "Ja I", "since": "Dec 2024", "own": "—", "fv": 500.0, "inv": 500.0, "cash": 0.0, "waarde": 500.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [250.0, 250.0, 250.0, 250.0, 500.0, 500.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [30125.0, 33500.0, 36875.0, 40250.0, 43625.0, 47000.0, 53750.0, 57167.0, 60542.0, 67292.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [112603.0, 119769.0, 118293.0, 79390.0, 121564.0, 125855.0, 121407.0, 118207.0, 126601.0, 120189.0], "kortetermijn": "- CLA €560k rondkrijgen met VF en NiCa", "vf_kort": "CLA €500k closen voor runway tot Q1 2027.", "vf_mid": "- Het management scherp houden op omzetgroei en klantgroei\n\nHelpen met voorbereiding Equity round Q1 2027", "strategie": "FuelFWD gaat zich in toenemende mate richten op de biomethaan sector, omdat daar de compliance uitdagingen nog groter zijn dan bij Biofuel traders. FuelFWD haalt nu €500k op (waarvan Value Factory €250k doet) ter overbrugging naar begin 2027. In de tussenperiode wil FuelFWD versnellen op Sales (+20 klanten dit jaar) en op productontwikkeling (met name een beter gebruikservaring creëren). Risico momenteel is de energiemarkt, waardoor het lastiger is om nieuwe innovatie bij traders te verkopen.", "updated": "31-03-2026"}, {"name": "Cano-Ela", "sector": "Food", "status": "Actief", "manager": "Jolanda", "rvo": "Ja I", "since": "Feb 2025", "own": "—", "fv": 190.0, "inv": 190.0, "cash": 0.0, "waarde": 190.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-03", "2025-06", "2025-09", "2025-12", "2026-03"], "sparkData": [190.0, 190.0, 190.0, 190.0, 190.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [21370.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "Strategische routes/mogelijkheden bepalen (Technologisch opschalen, IP verwaarden, EFSA geregegeld krijgen)", "vf_kort": "Wietse up & running krijgen. Inzichtelijk krijgen of en hoe we nog waarde uit Cano-ela krijgen.", "vf_mid": "", "strategie": "Cano-ela focust op de verbetering van extractietechnologie voor plantaardige eiwitten, samen met R&D-partners zoals NIZO en ISPT, enkiest daarbij voor een asset-light strategie zonder eigen fabriek. Het doel is om de technologie op pilotschaal te bewijzen en zo een strategische investering of overname door oil-millbedrijven mogelijk te maken. De waarde zit vooral in het aantonen dat de technologie op grotere schaal werkt, het opbouwen van eigen intellectueel eigendom (IP) en R&D die deels met subsidies wordt gefinancierd. Belangrijke risico’s zijn nieuwe financiering, het succesvol opschalen van de technologie, afhankelijkheid van externe partners en organisatorische continuïteit, mede doordat er momenteel een interim CEO is tijdens het zwangerschapsverlof van de CEO.", "updated": "31-03-2026"}, {"name": "DG Venturial", "sector": "Climate", "status": "Actief", "manager": "Jacco", "rvo": "Ja I", "since": "Jul 2025", "own": "—", "fv": 849.0, "inv": 849.0, "cash": 0.0, "waarde": 849.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-09", "2025-12", "2026-03"], "sparkData": [849.0, 849.0, 849.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "- realisatie van 2 pilot machines\n- detailplanning, begroting en werkafspraken", "vf_kort": "- via onze rol als directeur: detailplanning, begroting en werkafspraken", "vf_mid": "", "strategie": "DG Venturial richt zich op de ontwikkeling van een energiezuinige en zeer snelle droogtechnologie voor mest en andere organische reststromen, gebaseerd op een gepatenteerde techniek met akoestische schokgolven. Het doel is om deze technologie via pilot- en demonstratieprojecten te valideren en vervolgens op grotere schaal uit te rollen in samenwerking met partners in de mestverwerkings- en agrarische keten. De waarde zit vooral in het aantonen dat de technologie op industriële schaal kan functioneren en daarmee een economisch haalbare oplossing kan bieden voor het groeiende mestoverschot en de productie van bruikbare grondstoffen uit reststromen. Belangrijke risico’s liggen in het technisch opschalen van de technologie, het realiseren van eerste commerciële installaties, de afhankelijkheid van partners en vergunningen, en het aantrekken van voldoende kapitaal voor verdere uitrol.", "updated": "31-03-2026"}, {"name": "ThuysVers", "sector": "Food", "status": "Actief", "manager": "Jolanda", "rvo": "Ja I", "since": "Oct 2025", "own": "—", "fv": 500.0, "inv": 500.0, "cash": 0.0, "waarde": 500.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-09", "2025-12", "2026-03"], "sparkData": [500.0, 500.0, 500.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [656184.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [666617.0, 598333.0, 661157.0, 919053.0, 943560.0, 1160057.0, 1069435.0, 1029149.0, 1191610.0, 1037539.0], "burnActual": [-48617.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [11003.0, 16052.0, 19019.0, 20483.0, -13922.0, -36329.0, -63644.0, -66237.0, -110711.0, -95431.0], "kortetermijn": "De focus ligt op het verbeteren van winstgevende groei door hogere orderwaarde en retentie, gerealiseerd via een abonnementsmodel, assortimentuitbreiding, website- en CRO-optimalisaties, efficiëntere marketing, het verkennen van B2B-kanalen en merkversterking via o.a. de voedselbankcampagne.", "vf_kort": "Challengen/meedenken om doelstellingen te bereiken en potentieel verkennen van buy and build strategie", "vf_mid": "Break-even krijgen", "strategie": "Thuysvers verkoopt kant-en-klare maaltijden direct aan consumenten via een online platform met eigen logistiek. De focus ligt opgroei via online marketing en het verhogen vangemiddelde orderwaarde, betere brutomarges en efficiëntere bezorging naarmate volumes toenemen. Nieuwe valuedrivers zijn o.a. een abonnementsmodel, uitbreiding van het assortiment (zoals extra eetmomenten) en experimenten met B2B-verkoop. Belangrijkste risico’s liggen in marketingkosten en acquisitie (CAC), het verhogen van de gemiddelde orderwaarde en het realiseren van voldoende schaal om bezorg-en operationele kosten verder te verlagen", "updated": "31-03-2026"}, {"name": "Struck", "sector": "Built Environment", "status": "Actief", "manager": "Sander", "rvo": "Nee", "since": "Oct 2025", "own": "—", "fv": 500.0, "inv": 500.0, "cash": 0.0, "waarde": 500.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-09", "2025-12", "2026-03"], "sparkData": [500.0, 500.0, 500.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [30075.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [35659.0, 41606.0, 48931.0, 75489.0, 85107.0, 92773.0, 113414.0, 132490.0, 154555.0, 163968.0], "burnActual": [77137.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [69748.0, 53801.0, 67135.0, 74749.0, 65131.0, 60935.0, 40294.0, 29727.0, 7662.0, -1751.0], "kortetermijn": "Groei in klanten en omzet bij gemeentes en architecten (€1m einde jaar)\nOpleiden van gebruikers bij gemeenten zodat ze Struck meer gaan gebruiken\nComputational Checks verder ontwikkelen voor architecten\nPilot opstarten met makelaars", "vf_kort": "Scherp zijn op keuzes die Struck maakt en focus. Belangrijk dat ze focus houden op het vinden van product market fit bij architecten en", "vf_mid": "", "strategie": "Struck heeft de grootste AI powered database op het gebied van Europese wet- en regelgeving in de bouw. Het doel is om eind 2026 bij >50% van de Nederlandse gemeenten de default oplossing te worden voor het checken op vergunningsvrij bouwen. Daarnaast ontwikkelt het zijn product door voor architecten waarbij regelgeving gekoppeld wordt aan 3D BIM modellen. De samenwerking met Intergarant (tevens investeerder) is in deze succesvol omdat zij de ingang zijn naar gemeentes en medewerkers daar begeleiden bij het gebruik de Struck software. Het doel is om te groeien naar >€1m omzet zodat Struck interessant wordt voor nieuwe investeerders. Het risico is momenteel dat ze voor Architecten nog geen volledige PMF hebben (veel gratis gebruikers) en sales cycles bij gemeentes lang duren.", "updated": "31-03-2026"}, {"name": "Polybiotic Solutions", "sector": "Built Environment", "status": "Actief", "manager": "Jacco", "rvo": "Nee", "since": "Dec 2025", "own": "—", "fv": 183.0, "inv": 183.0, "cash": 0.0, "waarde": 183.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-12", "2026-03"], "sparkData": [125.0, 183.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [12.5, 12.5, 4620.0, 12.5, 27720.0, 12.5, 120120.0, 92400.0, 334920.0, 352200.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 2108.0, 0.0, 12652.0, 0.0, 54828.0, 42176.0, 130896.0, 105820.0], "kortetermijn": "Mijlpalen tranche 2:\n- Externe validatieproeven\n- Marktverkenning & 1e klantvalidatie", "vf_kort": "- Inwerken Machiel\n- Financiën overnemen en goede forecast\n- Inrichten aandeelhoudersrapportage", "vf_mid": "", "strategie": "Recent toegevoegd aan het portfolio. In februari is een nieuwe CEO gestart die momenteel werkt aan een plan voor het realiseren van de eerste mijlpalen. De focus ligt op het uitvoeren van externe validatieproeven, verdere marktverkenning en het realiseren van eerste klantvalidatie. Succesvolle afronding van deze stappen zal naar verwachting in april/mei plaatsvinden en zijn randvoorwaardelijk voor de tweede investerings­tranche.", "updated": "31-03-2026"}, {"name": "Agro4All", "sector": "AgriTech", "status": "Actief", "manager": "Sander", "rvo": "Ja I", "since": "Jan 2026", "own": "19.5%", "fv": 325.0, "inv": 325.0, "cash": 0.0, "waarde": 325.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2026-03", "2026-06", "2026-09"], "sparkData": [100.0, 175.0, 325.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [14.2, 2.0, 5.2, 5.7, 11.2, 17.5, 24.7, 39.2, 51.2, 64.0], "burnActual": [25.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [31.0, 55.0, 32.9, 74.5, 67.0, 25.6, 112.1, 44.8, 36.5, 27.3], "kortetermijn": "Mijlpalen tranche 2:\n- Aantrekken van CEO\n- x premiumklanten\n- InnoGo lening", "vf_kort": "-Ondersteuning voor vinden juiste CEO\n-Begeleiden bij inrichten aandeelhoudersrapportages\n- Scherp sturen op commerciële tractie", "vf_mid": "", "strategie": "Recent toegevoegd aan het portfolio. De belangrijkste prioriteit is het aantrekken van een CEO met sterke commerciële en sectorervaring om de volgende groeifase te leiden. De strategie richt zich op het ontwikkelen van een duidelijke go-to-marketstrategie waarmee het huidige gebruikersbestand met gratis abonnementen wordt geconverteerd naar betalende premiumgebruikers. Daarnaast is het opbouwen van strategische distributie- en commerciële partnerships met partijen zoals Royal Brinkman, Van Iperen en Syngenta een belangrijke value driver voor markttoegang en schaal. Belangrijke risico’s liggen in het aantrekken van het juiste leiderschap, het succesvol monetiseren van de bestaande gebruikersbasis en het realiseren van effectieve commerciële partnerships.", "updated": "31-03-2026"}, {"name": "SAM Panels", "sector": "Built Environment", "status": "Actief", "manager": "Jacco", "rvo": "Ja II", "since": "Jan 2026", "own": "—", "fv": 102.0, "inv": 103.0, "cash": 0.0, "waarde": 102.0, "delta": -1.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2026-03"], "sparkData": [102.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [41.7, 41.7, 41.7, 41.7, 41.7, 41.7, 41.7, 41.7, 41.7, 41.7], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Foamlab", "sector": "Climate", "status": "Actief", "manager": "Jacco", "rvo": "Ja II", "since": "Mar 2026", "own": "—", "fv": 250.0, "inv": 250.0, "cash": 0.0, "waarde": 250.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2026-03"], "sparkData": [250.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [8.3, 8.3, 8.3, 8.3, 8.3, 8.3, 8.3, 8.3, 8.3, 8.3], "burnActual": [48981.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}];
+const FUND      = {"all_quarters": ["2019-12", "2020-12", "2021-12", "2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06", "2026-09"], "latest_quarter": "2026-03", "quarterly_totals": {"2019-12": {"fv": 636.0, "inv": 638.0, "cash": 2.0, "tv": 638.0, "n": 3, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1.0, "inv": 1.0, "cash": 0.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 135.0, "inv": 137.0, "cash": 2.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}]}, "2020-12": {"fv": 1634.0, "inv": 1679.0, "cash": 100.0, "tv": 1734.0, "n": 5, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 655.0, "inv": 655.0, "cash": 0.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 92.0, "inv": 137.0, "cash": 100.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 619.0, "inv": 619.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 150.0, "inv": 150.0, "cash": 0.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Actief", "fv": 118.0, "inv": 118.0, "cash": 0.0}]}, "2021-12": {"fv": 3382.0, "inv": 2579.0, "cash": 207.0, "tv": 3589.0, "n": 6, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1104.0, "inv": 721.0, "cash": 66.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 230.0, "inv": 312.0, "cash": 141.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 1019.0, "inv": 694.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 625.0, "inv": 500.0, "cash": 0.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Actief", "fv": 211.0, "inv": 202.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 193.0, "inv": 150.0, "cash": 0.0}]}, "2022-12": {"fv": 7256.0, "inv": 4534.0, "cash": 396.0, "tv": 7652.0, "n": 9, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1551.0, "inv": 721.0, "cash": 188.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 162.0, "inv": 312.0, "cash": 207.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 2526.0, "inv": 1192.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 945.0, "inv": 500.0, "cash": 1.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 255.0, "inv": 243.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 592.0, "inv": 500.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 509.0, "inv": 350.0, "cash": 0.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 466.0, "inv": 466.0, "cash": 0.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 250.0, "inv": 250.0, "cash": 0.0}]}, "2023-12": {"fv": 10547.0, "inv": 5899.0, "cash": 523.0, "tv": 11070.0, "n": 11, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1754.0, "inv": 721.0, "cash": 288.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 136.0, "inv": 312.0, "cash": 231.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 3147.0, "inv": 1700.0, "cash": 2.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 1498.0, "inv": 500.0, "cash": 1.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 243.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 843.0, "inv": 750.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 415.0, "inv": 350.0, "cash": 0.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 655.0, "inv": 498.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 1499.0, "inv": 225.0, "cash": 0.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 100.0, "inv": 100.0, "cash": 0.0}]}, "2024-03": {"fv": 10570.0, "inv": 6375.0, "cash": 1074.0, "tv": 11644.0, "n": 11, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1715.0, "inv": 721.0, "cash": 384.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 129.0, "inv": 312.0, "cash": 236.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 3294.0, "inv": 1800.0, "cash": 2.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 1049.0, "inv": 600.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 243.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 843.0, "inv": 761.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 415.0, "inv": 350.0, "cash": 0.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 655.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 1499.0, "inv": 225.0, "cash": 0.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 471.0, "inv": 325.0, "cash": 0.0}]}, "2024-06": {"fv": 12224.0, "inv": 7265.0, "cash": 1079.0, "tv": 13303.0, "n": 12, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1729.0, "inv": 721.0, "cash": 384.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 123.0, "inv": 312.0, "cash": 241.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 3787.0, "inv": 1800.0, "cash": 2.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 1049.0, "inv": 600.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 243.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 843.0, "inv": 761.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 415.0, "inv": 350.0, "cash": 0.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 655.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 1499.0, "inv": 225.0, "cash": 0.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 686.0, "inv": 465.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 938.0, "inv": 750.0, "cash": 0.0}]}, "2024-09": {"fv": 13608.0, "inv": 7677.0, "cash": 1135.0, "tv": 14743.0, "n": 12, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1618.0, "inv": 721.0, "cash": 434.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 117.0, "inv": 312.0, "cash": 246.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 2154.0, "inv": 1800.0, "cash": 2.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 1150.0, "inv": 787.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 243.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 843.0, "inv": 761.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 415.0, "inv": 350.0, "cash": 0.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 60.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 5083.0, "inv": 225.0, "cash": 1.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 686.0, "inv": 565.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 982.0, "inv": 875.0, "cash": 0.0}]}, "2024-12": {"fv": 14548.0, "inv": 8610.0, "cash": 1139.0, "tv": 15687.0, "n": 13, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1482.0, "inv": 928.0, "cash": 434.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 101.0, "inv": 312.0, "cash": 250.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 2154.0, "inv": 1800.0, "cash": 2.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 1535.0, "inv": 788.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 243.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 793.0, "inv": 761.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 415.0, "inv": 350.0, "cash": 0.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 60.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 756.0, "inv": 500.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 5083.0, "inv": 225.0, "cash": 1.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 561.0, "inv": 665.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 1358.0, "inv": 1250.0, "cash": 0.0}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "fv": 250.0, "inv": 250.0, "cash": 0.0}]}, "2025-03": {"fv": 13597.0, "inv": 8975.0, "cash": 1153.0, "tv": 14750.0, "n": 14, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1482.0, "inv": 928.0, "cash": 489.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 101.0, "inv": 312.0, "cash": 211.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 656.0, "inv": 1846.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 1535.0, "inv": 788.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 252.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 793.0, "inv": 761.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 415.0, "inv": 420.0, "cash": 0.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 60.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 756.0, "inv": 500.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 5083.0, "inv": 275.0, "cash": 1.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 918.0, "inv": 665.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 1358.0, "inv": 1250.0, "cash": 0.0}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "fv": 250.0, "inv": 250.0, "cash": 0.0}, {"name": "Cano-Ela", "sector": "Food", "status": "Actief", "fv": 190.0, "inv": 190.0, "cash": 0.0}]}, "2025-06": {"fv": 13768.0, "inv": 9233.0, "cash": 1198.0, "tv": 14966.0, "n": 14, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1414.0, "inv": 1001.0, "cash": 523.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 91.0, "inv": 312.0, "cash": 221.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 656.0, "inv": 1846.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Actief", "fv": 1257.0, "inv": 887.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 252.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 793.0, "inv": 761.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 493.0, "inv": 428.0, "cash": 1.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 60.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 869.0, "inv": 575.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 5419.0, "inv": 275.0, "cash": 1.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 918.0, "inv": 665.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 1358.0, "inv": 1253.0, "cash": 0.0}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "fv": 250.0, "inv": 250.0, "cash": 0.0}, {"name": "Cano-Ela", "sector": "Food", "status": "Actief", "fv": 190.0, "inv": 190.0, "cash": 0.0}]}, "2025-09": {"fv": 14593.0, "inv": 11099.0, "cash": 2184.0, "tv": 16777.0, "n": 17, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Actief", "fv": 1454.0, "inv": 1018.0, "cash": 638.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Actief", "fv": 82.0, "inv": 312.0, "cash": 241.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 729.0, "inv": 1846.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 887.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 252.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 972.0, "inv": 761.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 494.0, "inv": 428.0, "cash": 2.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Actief", "fv": 60.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 869.0, "inv": 575.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 5368.0, "inv": 275.0, "cash": 851.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 918.0, "inv": 665.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 1358.0, "inv": 1253.0, "cash": 0.0}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "fv": 250.0, "inv": 250.0, "cash": 0.0}, {"name": "Cano-Ela", "sector": "Food", "status": "Actief", "fv": 190.0, "inv": 190.0, "cash": 0.0}, {"name": "DG Venturial", "sector": "Climate", "status": "Actief", "fv": 849.0, "inv": 849.0, "cash": 0.0}, {"name": "ThuysVers", "sector": "Food", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Struck", "sector": "Built Environment", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}]}, "2025-12": {"fv": 16672.0, "inv": 12723.0, "cash": 3659.0, "tv": 20331.0, "n": 18, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Exit", "fv": 0.0, "inv": 1030.0, "cash": 2031.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Exit", "fv": 0.0, "inv": 312.0, "cash": 323.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 729.0, "inv": 1846.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 903.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 252.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 1257.0, "inv": 961.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 496.0, "inv": 428.0, "cash": 2.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 1165.0, "inv": 650.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 5368.0, "inv": 275.0, "cash": 851.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 1240.0, "inv": 915.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 3753.0, "inv": 1949.0, "cash": 0.0}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Cano-Ela", "sector": "Food", "status": "Actief", "fv": 190.0, "inv": 190.0, "cash": 0.0}, {"name": "DG Venturial", "sector": "Climate", "status": "Actief", "fv": 849.0, "inv": 849.0, "cash": 0.0}, {"name": "ThuysVers", "sector": "Food", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Struck", "sector": "Built Environment", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Polybiotic Solutions", "sector": "Built Environment", "status": "Actief", "fv": 125.0, "inv": 125.0, "cash": 0.0}]}, "2026-03": {"fv": 17182.0, "inv": 13238.0, "cash": 3710.0, "tv": 20892.0, "n": 21, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Exit", "fv": 0.0, "inv": 1030.0, "cash": 2031.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Exit", "fv": 0.0, "inv": 312.0, "cash": 323.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 729.0, "inv": 1846.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 903.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 252.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 1257.0, "inv": 961.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 496.0, "inv": 428.0, "cash": 2.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 1165.0, "inv": 650.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 5368.0, "inv": 275.0, "cash": 902.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 1240.0, "inv": 915.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 3753.0, "inv": 1953.0, "cash": 0.0}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Cano-Ela", "sector": "Food", "status": "Actief", "fv": 190.0, "inv": 190.0, "cash": 0.0}, {"name": "DG Venturial", "sector": "Climate", "status": "Actief", "fv": 849.0, "inv": 849.0, "cash": 0.0}, {"name": "ThuysVers", "sector": "Food", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Struck", "sector": "Built Environment", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Polybiotic Solutions", "sector": "Built Environment", "status": "Actief", "fv": 183.0, "inv": 183.0, "cash": 0.0}, {"name": "Agro4All", "sector": "AgriTech", "status": "Actief", "fv": 100.0, "inv": 100.0, "cash": 0.0}, {"name": "SAM Panels", "sector": "Built Environment", "status": "Actief", "fv": 102.0, "inv": 103.0, "cash": 0.0}, {"name": "Foamlab", "sector": "Climate", "status": "Actief", "fv": 250.0, "inv": 250.0, "cash": 0.0}]}, "2026-06": {"fv": 18375.7, "inv": 14088.0, "cash": 3710.0, "tv": 22085.7, "n": 22, "partial": false, "companies": [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Exit", "fv": 0.0, "inv": 1030.0, "cash": 2031.0}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Exit", "fv": 0.0, "inv": 312.0, "cash": 323.0}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "fv": 729.0, "inv": 1846.0, "cash": 0.0}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 903.0, "cash": 451.0}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 252.0, "cash": 0.0}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "fv": 1257.0, "inv": 961.0, "cash": 0.0}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "fv": 496.0, "inv": 428.0, "cash": 2.0}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Default", "fv": 0.0, "inv": 538.0, "cash": 1.0}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "fv": 1165.0, "inv": 650.0, "cash": 0.0}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "fv": 5368.0, "inv": 275.0, "cash": 902.0}, {"name": "Proba", "sector": "Climate", "status": "Actief", "fv": 1240.0, "inv": 915.0, "cash": 0.0}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "fv": 3753.0, "inv": 1953.0, "cash": 0.0}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "fv": 750.0, "inv": 750.0, "cash": 0.0}, {"name": "Cano-Ela", "sector": "Food", "status": "Actief", "fv": 190.0, "inv": 190.0, "cash": 0.0}, {"name": "DG Venturial", "sector": "Climate", "status": "Actief", "fv": 849.0, "inv": 849.0, "cash": 0.0}, {"name": "ThuysVers", "sector": "Food", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Struck", "sector": "Built Environment", "status": "Actief", "fv": 500.0, "inv": 500.0, "cash": 0.0}, {"name": "Polybiotic Solutions", "sector": "Built Environment", "status": "Actief", "fv": 218.4, "inv": 208.0, "cash": 0.0}, {"name": "Agro4All", "sector": "AgriTech", "status": "Actief", "fv": 175.0, "inv": 175.0, "cash": 0.0}, {"name": "SAM Panels", "sector": "Built Environment", "status": "Actief", "fv": 102.0, "inv": 103.0, "cash": 0.0}, {"name": "Foamlab", "sector": "Climate", "status": "Actief", "fv": 250.0, "inv": 250.0, "cash": 0.0}, {"name": "Ledgnd", "sector": "AgriTech", "status": "Actief", "fv": 833.3, "inv": 500.0, "cash": 0.0}]}, "2026-09": {"fv": 325.0, "inv": 325.0, "cash": 0.0, "tv": 325.0, "n": 1, "partial": true, "companies": [{"name": "Agro4All", "sector": "AgriTech", "status": "Actief", "fv": 325.0, "inv": 325.0, "cash": 0.0}]}}, "total_fv": 17182, "total_tv": 20892, "total_inv": 13238, "total_cash": 3710, "fv_delta_pct": 3.1, "n_actief": 17, "n_exit": 2, "n_default": 3, "dry_powder": 6440, "dp_detail": {"q": "2026-06", "open_priv": 4788.0, "open_pub": 1208.0, "tot_comm": 22216.0, "cash": 444.0, "hard": 1300.0, "soft": 1810.0, "liq": 450.0, "reserv": 480.0, "gross": 6440.0, "net": 2400.0, "fondswaarde": 29620.0, "portfoliowaarde": 18375.7, "waarde_aangroei": 3193.0, "dividend": 4211.0, "geinvesteerd": 16220.0, "commitments": 5996.0}, "dp_timeseries": [{"q": "2019-12", "open_priv": 2500.0, "open_pub": 0.0, "tot_comm": 3125.0, "cash": 199.0, "hard": 0.0, "soft": 0.0, "liq": 0.0, "reserv": 78.0, "gross": 2699.0, "net": 2621.0, "fondswaarde": 3107.0, "portfoliowaarde": 636.0, "waarde_aangroei": -18.0, "dividend": 0.0, "geinvesteerd": 625.0, "commitments": 2500.0}, {"q": "2020-12", "open_priv": 1500.0, "open_pub": 0.0, "tot_comm": 3125.0, "cash": 376.0, "hard": 350.0, "soft": 0.0, "liq": 0.0, "reserv": 78.0, "gross": 1876.0, "net": 1448.0, "fondswaarde": 3124.0, "portfoliowaarde": 1634.0, "waarde_aangroei": -1.0, "dividend": 0.0, "geinvesteerd": 1625.0, "commitments": 1500.0}, {"q": "2021-12", "open_priv": 1063.0, "open_pub": 0.0, "tot_comm": 3125.0, "cash": 66.0, "hard": 0.0, "soft": 0.0, "liq": 0.0, "reserv": 78.0, "gross": 1129.0, "net": 1051.0, "fondswaarde": 4033.0, "portfoliowaarde": 3382.0, "waarde_aangroei": 908.0, "dividend": 0.0, "geinvesteerd": 2062.0, "commitments": 1063.0}, {"q": "2022-12", "open_priv": 0.0, "open_pub": 0.0, "tot_comm": 4625.0, "cash": 536.0, "hard": 0.0, "soft": 0.0, "liq": 300.0, "reserv": 116.0, "gross": 536.0, "net": 120.0, "fondswaarde": 7504.0, "portfoliowaarde": 7256.0, "waarde_aangroei": 2879.0, "dividend": 0.0, "geinvesteerd": 4625.0, "commitments": 0.0}, {"q": "2023-12", "open_priv": 0.0, "open_pub": 0.0, "tot_comm": 5325.0, "cash": 252.0, "hard": 0.0, "soft": 0.0, "liq": 441.0, "reserv": 133.0, "gross": 252.0, "net": -322.0, "fondswaarde": 10166.0, "portfoliowaarde": 10547.0, "waarde_aangroei": 4841.0, "dividend": 0.0, "geinvesteerd": 5325.0, "commitments": 0.0}, {"q": "2024-03", "open_priv": 0.0, "open_pub": 0.0, "tot_comm": 5725.0, "cash": 295.0, "hard": 0.0, "soft": 0.0, "liq": 521.0, "reserv": 143.0, "gross": 295.0, "net": -369.0, "fondswaarde": 10957.0, "portfoliowaarde": 10570.0, "waarde_aangroei": 4785.0, "dividend": 447.0, "geinvesteerd": 5725.0, "commitments": 0.0}, {"q": "2024-06", "open_priv": 0.0, "open_pub": 3000.0, "tot_comm": 9525.0, "cash": 378.0, "hard": 0.0, "soft": 0.0, "liq": 248.0, "reserv": 163.0, "gross": 3378.0, "net": 2967.0, "fondswaarde": 15335.0, "portfoliowaarde": 12224.0, "waarde_aangroei": 5363.0, "dividend": 447.0, "geinvesteerd": 6525.0, "commitments": 3000.0}, {"q": "2024-09", "open_priv": 3681.0, "open_pub": 3000.0, "tot_comm": 13781.0, "cash": 226.0, "hard": 0.0, "soft": 0.0, "liq": 427.0, "reserv": 270.0, "gross": 6907.0, "net": 6210.0, "fondswaarde": 21348.0, "portfoliowaarde": 13608.0, "waarde_aangroei": 5593.0, "dividend": 1974.0, "geinvesteerd": 7100.0, "commitments": 6681.0}, {"q": "2024-12", "open_priv": 2855.0, "open_pub": 2500.0, "tot_comm": 13781.0, "cash": 416.0, "hard": 0.0, "soft": 0.0, "liq": 427.0, "reserv": 270.0, "gross": 5771.0, "net": 5074.0, "fondswaarde": 21640.0, "portfoliowaarde": 14548.0, "waarde_aangroei": 5885.0, "dividend": 1974.0, "geinvesteerd": 8426.0, "commitments": 5355.0}, {"q": "2025-03", "open_priv": 2319.0, "open_pub": 2405.0, "tot_comm": 14281.0, "cash": 627.0, "hard": 0.0, "soft": 0.0, "liq": 527.0, "reserv": 282.0, "gross": 5351.0, "net": 4542.0, "fondswaarde": 20892.0, "portfoliowaarde": 13597.0, "waarde_aangroei": 4637.0, "dividend": 1974.0, "geinvesteerd": 9557.0, "commitments": 4724.0}, {"q": "2025-06", "open_priv": 2514.0, "open_pub": 2405.0, "tot_comm": 14781.0, "cash": 533.0, "hard": 0.0, "soft": 0.0, "liq": 627.0, "reserv": 295.0, "gross": 5452.0, "net": 4530.0, "fondswaarde": 21228.0, "portfoliowaarde": 13768.0, "waarde_aangroei": 4473.0, "dividend": 1974.0, "geinvesteerd": 9862.0, "commitments": 4919.0}, {"q": "2025-09", "open_priv": 2565.0, "open_pub": 1605.0, "tot_comm": 15976.0, "cash": 1802.0, "hard": 0.0, "soft": 0.0, "liq": 866.0, "reserv": 324.0, "gross": 5972.0, "net": 4782.0, "fondswaarde": 22146.0, "portfoliowaarde": 14593.0, "waarde_aangroei": 3430.0, "dividend": 2740.0, "geinvesteerd": 11806.0, "commitments": 4170.0}, {"q": "2025-12", "open_priv": 2688.0, "open_pub": 1508.0, "tot_comm": 18162.0, "cash": 1305.0, "hard": 150.0, "soft": 0.0, "liq": 1153.2, "reserv": 379.0, "gross": 5501.0, "net": 3819.0, "fondswaarde": 25663.0, "portfoliowaarde": 16672.0, "waarde_aangroei": 3290.0, "dividend": 4211.0, "geinvesteerd": 13966.0, "commitments": 4196.0}, {"q": "2026-03", "open_priv": 3688.0, "open_pub": 1208.0, "tot_comm": 20066.0, "cash": 1189.0, "hard": 1125.0, "soft": 1810.0, "liq": 1534.0, "reserv": 427.0, "gross": 6085.0, "net": 1189.0, "fondswaarde": 27470.0, "portfoliowaarde": 17182.0, "waarde_aangroei": 3193.0, "dividend": 4211.0, "geinvesteerd": 15170.0, "commitments": 4896.0}, {"q": "2026-06", "open_priv": 4788.0, "open_pub": 1208.0, "tot_comm": 22216.0, "cash": 444.0, "hard": 1300.0, "soft": 1810.0, "liq": 450.0, "reserv": 480.0, "gross": 6440.0, "net": 2400.0, "fondswaarde": 29620.0, "portfoliowaarde": 18375.7, "waarde_aangroei": 3193.0, "dividend": 4211.0, "geinvesteerd": 16220.0, "commitments": 5996.0}], "fondswaarde": 29620, "generated_at": "15-05-2026 17:03", "inv_deltas": {"2019-12": [], "2020-12": [{"name": "Reclamemasten", "delta_inv": 654.0, "delta_fv": 654.0}, {"name": "Pera People Science", "delta_inv": 119.0, "delta_fv": 119.0}, {"name": "FreshIQ", "delta_inv": 150.0, "delta_fv": 150.0}, {"name": "Fair Agro Food", "delta_inv": 118.0, "delta_fv": 118.0}], "2021-12": [{"name": "Reclamemasten", "delta_inv": 66.0, "delta_fv": 449.0}, {"name": "LED Screen Leases", "delta_inv": 175.0, "delta_fv": 138.0}, {"name": "Pera People Science", "delta_inv": 75.0, "delta_fv": 400.0}, {"name": "FreshIQ", "delta_inv": 350.0, "delta_fv": 475.0}, {"name": "Fair Agro Food", "delta_inv": 84.0, "delta_fv": 93.0}, {"name": "Healthy Fridge", "delta_inv": 150.0, "delta_fv": 193.0}], "2022-12": [{"name": "Pera People Science", "delta_inv": 498.0, "delta_fv": 1507.0}, {"name": "Fair Agro Food", "delta_inv": 41.0, "delta_fv": 44.0}, {"name": "Healthy Fridge", "delta_inv": 350.0, "delta_fv": 399.0}, {"name": "Corvus Drones", "delta_inv": 350.0, "delta_fv": 509.0}, {"name": "UrbanFarmingPartners", "delta_inv": 466.0, "delta_fv": 466.0}, {"name": "Growficient", "delta_inv": 250.0, "delta_fv": 250.0}], "2023-12": [{"name": "Pera People Science", "delta_inv": 508.0, "delta_fv": 621.0}, {"name": "Healthy Fridge", "delta_inv": 250.0, "delta_fv": 251.0}, {"name": "UrbanFarmingPartners", "delta_inv": 32.0, "delta_fv": 189.0}, {"name": "Growficient", "delta_inv": 250.0, "delta_fv": 250.0}, {"name": "Dealin.Green", "delta_inv": 225.0, "delta_fv": 1499.0}, {"name": "Proba", "delta_inv": 100.0, "delta_fv": 100.0}], "2024-03": [{"name": "Pera People Science", "delta_inv": 100.0, "delta_fv": 147.0}, {"name": "FreshIQ", "delta_inv": 100.0, "delta_fv": -449.0}, {"name": "Healthy Fridge", "delta_inv": 11.0, "delta_fv": 0.0}, {"name": "UrbanFarmingPartners", "delta_inv": 40.0, "delta_fv": 0.0}, {"name": "Proba", "delta_inv": 225.0, "delta_fv": 371.0}], "2024-06": [{"name": "Proba", "delta_inv": 140.0, "delta_fv": 215.0}, {"name": "FC-i", "delta_inv": 750.0, "delta_fv": 938.0}], "2024-09": [{"name": "FreshIQ", "delta_inv": 187.0, "delta_fv": 101.0}, {"name": "Proba", "delta_inv": 100.0, "delta_fv": 0.0}, {"name": "FC-i", "delta_inv": 125.0, "delta_fv": 44.0}], "2024-12": [{"name": "Reclamemasten", "delta_inv": 207.0, "delta_fv": -136.0}, {"name": "FreshIQ", "delta_inv": 1.0, "delta_fv": 385.0}, {"name": "Proba", "delta_inv": 100.0, "delta_fv": -125.0}, {"name": "FC-i", "delta_inv": 375.0, "delta_fv": 376.0}, {"name": "FuelFWD", "delta_inv": 250.0, "delta_fv": 250.0}], "2025-03": [{"name": "Pera People Science", "delta_inv": 46.0, "delta_fv": -1498.0}, {"name": "Fair Agro Food", "delta_inv": 9.0, "delta_fv": 0.0}, {"name": "Corvus Drones", "delta_inv": 70.0, "delta_fv": 0.0}, {"name": "Dealin.Green", "delta_inv": 50.0, "delta_fv": 0.0}, {"name": "Cano-Ela", "delta_inv": 190.0, "delta_fv": 190.0}], "2025-06": [{"name": "Reclamemasten", "delta_inv": 73.0, "delta_fv": -68.0}, {"name": "FreshIQ", "delta_inv": 99.0, "delta_fv": -278.0}, {"name": "Corvus Drones", "delta_inv": 8.0, "delta_fv": 78.0}, {"name": "Growficient", "delta_inv": 75.0, "delta_fv": 113.0}, {"name": "FC-i", "delta_inv": 3.0, "delta_fv": 0.0}], "2025-09": [{"name": "Reclamemasten", "delta_inv": 17.0, "delta_fv": 40.0}, {"name": "DG Venturial", "delta_inv": 849.0, "delta_fv": 849.0}, {"name": "ThuysVers", "delta_inv": 500.0, "delta_fv": 500.0}, {"name": "Struck", "delta_inv": 500.0, "delta_fv": 500.0}], "2025-12": [{"name": "Reclamemasten", "delta_inv": 12.0, "delta_fv": -1454.0}, {"name": "FreshIQ", "delta_inv": 16.0, "delta_fv": 0.0}, {"name": "Healthy Fridge", "delta_inv": 200.0, "delta_fv": 285.0}, {"name": "Growficient", "delta_inv": 75.0, "delta_fv": 296.0}, {"name": "Proba", "delta_inv": 250.0, "delta_fv": 322.0}, {"name": "FC-i", "delta_inv": 696.0, "delta_fv": 2395.0}, {"name": "FuelFWD", "delta_inv": 250.0, "delta_fv": 250.0}, {"name": "Polybiotic Solutions", "delta_inv": 125.0, "delta_fv": 125.0}], "2026-03": [{"name": "FC-i", "delta_inv": 4.0, "delta_fv": 0.0}, {"name": "Polybiotic Solutions", "delta_inv": 58.0, "delta_fv": 58.0}, {"name": "Agro4All", "delta_inv": 100.0, "delta_fv": 100.0}, {"name": "SAM Panels", "delta_inv": 103.0, "delta_fv": 102.0}, {"name": "Foamlab", "delta_inv": 250.0, "delta_fv": 250.0}], "2026-06": [{"name": "FuelFWD", "delta_inv": 250.0, "delta_fv": 250.0}, {"name": "Polybiotic Solutions", "delta_inv": 25.0, "delta_fv": 35.4}, {"name": "Agro4All", "delta_inv": 75.0, "delta_fv": 75.0}, {"name": "Ledgnd", "delta_inv": 500.0, "delta_fv": 833.3}], "2026-09": [{"name": "Agro4All", "delta_inv": 150.0, "delta_fv": 150.0}]}};
+const KPI       = {"fw_start": 25663.0, "fw_now": 27470.0, "fw_doel_jaar": 38000, "fw_doel_q1": 30000, "fw_doel_q2": 36000, "fw_doel_q3": 37000, "nk_delta": 1904.0, "rend_delta": -97.0, "groei_real": 1807.0, "groei_benodigd": 12337.0, "groei_q1_doel": 4337.0, "inv_nieuw_doel_jaar": 7000, "inv_nieuw_doel_q1": 1750, "inv_nieuw_doel_q2": 3500, "inv_nieuw_doel_q3": 5250, "inv_nieuw_aantal_doel": 12, "inv_nieuw_aantal_q1": 3, "inv_nieuw_real": 325.0, "inv_nieuw_cnt": 1, "inv_followon_doel_jaar": 1900, "inv_followon_doel_q1": 543, "inv_followon_doel_q2": 1086, "inv_followon_doel_q3": 1357, "inv_followon_aantal_doel": 7, "inv_followon_aantal_q1": 2, "inv_followon_real": 0, "inv_followon_cnt": 0, "hard_comm": 1125.0, "soft_comm": 1810.0, "div_doel_jaar": 2100, "div_doel_q1": 500, "div_doel_q2": 1000, "div_doel_q3": 1500, "div_2026": 0.0, "div_cum": 4211.0, "div_rend": 0.137, "div_rend_prev": 0.151, "fw_spark": [{"q": "2019 Q4", "v": 3107.0}, {"q": "2020 Q4", "v": 3124.0}, {"q": "2021 Q4", "v": 4033.0}, {"q": "2022 Q4", "v": 7504.0}, {"q": "2023 Q4", "v": 10166.0}, {"q": "2024 Q1", "v": 10957.0}, {"q": "2024 Q2", "v": 15335.0}, {"q": "2024 Q3", "v": 21348.0}, {"q": "2024 Q4", "v": 21640.0}, {"q": "2025 Q1", "v": 20892.0}, {"q": "2025 Q2", "v": 21228.0}, {"q": "2025 Q3", "v": 22146.0}, {"q": "2025 Q4", "v": 25663.0}, {"q": "2026 Q1", "v": 27470.0}, {"q": "2026 Q2", "v": 29620.0}], "div_spark": [{"q": "2019 Q4", "v": 0.0}, {"q": "2020 Q4", "v": 0.0}, {"q": "2021 Q4", "v": 0.0}, {"q": "2022 Q4", "v": 0.0}, {"q": "2023 Q4", "v": 0.0}, {"q": "2024 Q1", "v": 447.0}, {"q": "2024 Q2", "v": 447.0}, {"q": "2024 Q3", "v": 1974.0}, {"q": "2024 Q4", "v": 1974.0}, {"q": "2025 Q1", "v": 1974.0}, {"q": "2025 Q2", "v": 1974.0}, {"q": "2025 Q3", "v": 2740.0}, {"q": "2025 Q4", "v": 4211.0}, {"q": "2026 Q1", "v": 4211.0}, {"q": "2026 Q2", "v": 4211.0}]};
+const INV_DELTAS = FUND.inv_deltas || {};
+const COMPANIES = [{"name": "Reclamemasten", "sector": "Out of Scope", "status": "Exit", "manager": "Johan", "rvo": "Nee", "since": "Jan 2020", "own": "—", "fv": 0.0, "inv": 1030.0, "cash": 2031.0, "waarde": 2031.0, "delta": 1001.0, "multiple": "2.0x", "active": false, "sparkLabels": ["2019-12", "2020-12", "2021-12", "2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [1.0, 655.0, 1104.0, 1551.0, 1754.0, 1715.0, 1729.0, 1618.0, 1482.0, 1482.0, 1414.0, 1454.0, 0.0, 0.0, 0.0], "revLabels": ["2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-12", "2026-03", "2026-06", "2026-09", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [], "revMonthlyLabels": [], "revGrowthPct": null, "revGrowthMonths": 0, "eoyDelta": -1454.0, "vfEstimate": null, "vfEstimateDate": null, "yeVal": null, "uplift": null, "custLatest": null, "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "LED Screen Leases", "sector": "Out of Scope", "status": "Exit", "manager": "Johan", "rvo": "Nee", "since": "Dec 2019", "own": "—", "fv": 0.0, "inv": 312.0, "cash": 323.0, "waarde": 323.0, "delta": 11.0, "multiple": "1.0x", "active": false, "sparkLabels": ["2019-12", "2020-12", "2021-12", "2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [135.0, 92.0, 230.0, 162.0, 136.0, 129.0, 123.0, 117.0, 101.0, 101.0, 91.0, 82.0, 0.0, 0.0, 0.0], "revLabels": ["2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-03", "2026-06", "2026-09", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [], "revMonthlyLabels": [], "revGrowthPct": null, "revGrowthMonths": 0, "eoyDelta": -82.0, "vfEstimate": null, "vfEstimateDate": null, "yeVal": null, "uplift": null, "custLatest": null, "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Pera People Science", "sector": "Out of Scope", "status": "Actief", "manager": "Sander", "rvo": "Nee", "since": "Sep 2020", "own": "—", "fv": 729.0, "inv": 1846.0, "cash": 0.0, "waarde": 729.0, "delta": -1117.0, "multiple": "0.4x", "active": true, "sparkLabels": ["2019-12", "2020-12", "2021-12", "2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [500.0, 619.0, 1019.0, 2526.0, 3147.0, 3294.0, 3787.0, 2154.0, 2154.0, 656.0, 656.0, 729.0, 729.0, 729.0, 729.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [81.4, 66.8, 72.1, 56.0, 63.7, 72.2, 37.7, 37.7, 29.0, 38.9, 81.0, 101.7], "revMonthlyLabels": ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": 24.9, "revGrowthMonths": 12, "eoyDelta": -729.0, "vfEstimate": 8.8, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": -720.2, "custLatest": 33, "kortetermijn": "", "vf_kort": "Weer in een neutrale relatie komen waarbij ValueFactory standaard maandelijks geïnformeerd wordt over de stand van zaken", "vf_mid": "Indien Pera verkoopbaar wordt, actief op zoek gaan naar potentiële exit partijen", "strategie": "Pera heeft moeite om product-market fit te vinden in de HR sector, waardoor omzetgroei achterblijft. Daarom heeft Pera gekozen voor een pivot waarbij het op basis van de verzamelde data fraude risico's in kaart wil brengen voor verzekeraars. De communicatie met de CEO is moeizaam en in het verleden zijn suggesties van Value Factory om de koers te wijzigen genegeerd. De investering past ook niet langer binnen de focus. Om deze reden staat Value Factory open voor verkoop van het belang. Er zal niet worden doorgeïnvesteerd.", "updated": "31-03-2026"}, {"name": "FreshIQ", "sector": "AgriTech", "status": "Default", "manager": "Johan", "rvo": "Nee", "since": "Sep 2020", "own": "—", "fv": 0.0, "inv": 903.0, "cash": 451.0, "waarde": 451.0, "delta": -452.0, "multiple": "0.5x", "active": false, "sparkLabels": ["2020-12", "2021-12", "2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [150.0, 625.0, 945.0, 1498.0, 1049.0, 1049.0, 1150.0, 1535.0, 1535.0, 1257.0, 0.0, 0.0, 0.0, 0.0], "revLabels": ["2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-12", "2026-03", "2026-06", "2026-09", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [29.2], "revMonthlyLabels": ["2026-12"], "revGrowthPct": null, "revGrowthMonths": 1, "eoyDelta": -1257.0, "vfEstimate": null, "vfEstimateDate": null, "yeVal": null, "uplift": null, "custLatest": 33, "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Fair Agro Food", "sector": "AgriTech", "status": "Default", "manager": "Peter", "rvo": "Nee", "since": "Apr 2022", "own": "—", "fv": 0.0, "inv": 252.0, "cash": 0.0, "waarde": 0.0, "delta": -252.0, "multiple": "0.0x", "active": false, "sparkLabels": ["2020-12", "2021-12", "2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [118.0, 211.0, 255.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [6.7], "revMonthlyLabels": ["2026-12"], "revGrowthPct": null, "revGrowthMonths": 1, "eoyDelta": -255.0, "vfEstimate": null, "vfEstimateDate": null, "yeVal": null, "uplift": null, "custLatest": null, "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Healthy Fridge", "sector": "Food", "status": "Actief", "manager": "Jolanda", "rvo": "Nee", "since": "Dec 2019", "own": "—", "fv": 1257.0, "inv": 961.0, "cash": 0.0, "waarde": 1257.0, "delta": 296.0, "multiple": "1.3x", "active": true, "sparkLabels": ["2021-12", "2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [193.0, 592.0, 843.0, 843.0, 843.0, 843.0, 793.0, 793.0, 793.0, 972.0, 1257.0, 1257.0, 1257.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [158.4, 169.5, 165.1, 174.8, 180.1, 205.6, 218.7, 215.6, 197.3, 235.2, 216.3, 233.3], "revMonthlyLabels": ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": 47.3, "revGrowthMonths": 12, "eoyDelta": -1257.0, "vfEstimate": 19.3, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": -1237.7, "custLatest": null, "kortetermijn": "Doel = break-even bij 135 fridges + betere unit economics\nGo-to-market = partnerships (B2B distributie)\nKern KPI = profitability per fridge (niet alleen groei)\nUpside = extra revenue per locatie (media/catering)", "vf_kort": "Opschaling via tenders helpen succesvol krijgen, helpen de retailmedia strategie te implementeren. Mogelijkheden Healthy Food Wall bepalen.", "vf_mid": "Break-even krijgen en dan exitmogelijkheden bekijken", "strategie": "HealthyFridge exploiteert circa 100 fridgesmet vers grab-&-go eten, vooral in kantoren en ziekenhuizen (ca. 90 vorig jaar), met een plan richting ~135 fridgesom in 2026 breakeven te draaien. Groei komt vooral via partnerships met cateraars en coffee vendors, gecombineerd met verbetering van de unit economicsper fridge. Extra waarde komt uit vergadercatering, self-servicefridgesen media-inkomsten; risico’s zijn lange salescycli, rendement per locatie en financiering van nieuwe fridges.", "updated": "31-03-2026"}, {"name": "Corvus Drones", "sector": "AgriTech", "status": "Actief", "manager": "Jacco", "rvo": "Nee", "since": "May 2021", "own": "—", "fv": 496.0, "inv": 428.0, "cash": 2.0, "waarde": 498.0, "delta": 70.0, "multiple": "1.2x", "active": true, "sparkLabels": ["2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [509.0, 415.0, 415.0, 415.0, 415.0, 415.0, 415.0, 493.0, 494.0, 496.0, 496.0, 496.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [20.7, 20.4, 12.2, 16.4, 19.5, 12.4, 25.5, 17.4, 61.0, 36.9, 36.9, 34.2], "revMonthlyLabels": ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": 65.2, "revGrowthMonths": 12, "eoyDelta": -496.0, "vfEstimate": null, "vfEstimateDate": null, "yeVal": null, "uplift": null, "custLatest": null, "kortetermijn": "- Aantrekken van nieuw kapitaal\n- 1 a 2 nieuwe klanten per maand", "vf_kort": "- Actief verkennen van fusie met ADI\n- Actief verkennen van fusie met YieldComputer", "vf_mid": "- Verkopen of onderbrengen in grotere geheel (buy-and-build hortistrategie)", "strategie": "Momenteel groeien ze geleidelijk met circa 1–2 nieuwe klanten per maand. In dit tempo duurt het naar verwachting nog minimaal een jaar voordat het bedrijf break-even bereikt. Gezien de huidige groeisnelheid en twijfels over de geschiktheid van de CEO voor de volgende fase, is de intentie om slechts beperkt door te investeren. Tegelijk verkennen we actief strategische opties zoals verkoop of fusie binnen onze bredere horti-strategie, waarbij Corvus onderdeel kan worden van een groter geheel. Hierover zijn met verschillende partijen concreet in gesprek.\nNu is er een beperkte overbrugginginvestering noodzakelijk om de runway met circa vier maanden te verlengen om deze strategische opties te realiseren; zonder deze investering bestaat een reëel faillissementsrisico.", "updated": "31-03-2026"}, {"name": "UrbanFarmingPartners", "sector": "AgriTech", "status": "Default", "manager": "Jacco", "rvo": "Nee", "since": "Mar 2022", "own": "—", "fv": 0.0, "inv": 538.0, "cash": 1.0, "waarde": 1.0, "delta": -537.0, "multiple": "0.0x", "active": false, "sparkLabels": ["2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [466.0, 655.0, 655.0, 655.0, 60.0, 60.0, 60.0, 60.0, 60.0, 0.0, 0.0, 0.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [], "revMonthlyLabels": [], "revGrowthPct": null, "revGrowthMonths": 0, "eoyDelta": -60.0, "vfEstimate": null, "vfEstimateDate": null, "yeVal": null, "uplift": null, "custLatest": null, "kortetermijn": "- Sluiten van de pilotfarm.", "vf_kort": "- Zo min mogelijk tijd aanbesteden.", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Growficient", "sector": "AgriTech", "status": "Actief", "manager": "Jacco", "rvo": "Nee", "since": "Jun 2022", "own": "22.1%", "fv": 1165.0, "inv": 650.0, "cash": 0.0, "waarde": 1165.0, "delta": 515.0, "multiple": "1.8x", "active": true, "sparkLabels": ["2022-12", "2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [250.0, 500.0, 500.0, 500.0, 500.0, 756.0, 756.0, 869.0, 869.0, 1165.0, 1165.0, 1165.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [53.5, 104.3, 45.8, 51.6, 48.7, 56.2, 62.9, 37.8, 117.4, 138.7, 79.7, 76.3], "revMonthlyLabels": ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": 42.6, "revGrowthMonths": 12, "eoyDelta": 162.8, "vfEstimate": 1327.8, "vfEstimateDate": "2026-12", "yeVal": 1327.8, "uplift": 162.8, "custLatest": null, "kortetermijn": "- Aantrekken van nieuw kapitaal\n- Groei naar MRR: x", "vf_kort": "- Actief verkennen van exit aan 30Mhz of aan Ledgnd", "vf_mid": "- Verkopen of onderbrengen in grotere geheel (buy-and-build hortistrategie)", "strategie": "Hoewel Growficient technologisch interessant is, beoordelen wij de schaalbaarheid en marktpositie op langere termijn als beperkt. Het bedrijf opereert in een relatief kleine niche en mist momenteel de schaal om zelfstandig uit te groeien tot een grotere speler. Daarnaast zijn wij kritisch op de geschiktheid van de huidige CEO voor de volgende fase. De strategie is daarom gericht op het verkennen van strategische opties zoals verkoop of integratie in een groter platform, bijvoorbeeld als onderdeel van onze bredere buy-and-buildstrategie binnen de hortisector. Hierover zijn we concreet in gesprek met een mogelijke overname-/fusiepartij.", "updated": "31-03-2026"}, {"name": "Dealin.Green", "sector": "Climate", "status": "Actief", "manager": "Johan", "rvo": "Nee", "since": "May 2023", "own": "25.7%", "fv": 5368.0, "inv": 275.0, "cash": 902.0, "waarde": 6270.0, "delta": 5995.0, "multiple": "22.8x", "active": true, "sparkLabels": ["2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [1499.0, 1499.0, 1499.0, 5083.0, 5083.0, 5083.0, 5419.0, 5368.0, 5368.0, 5368.0, 5368.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [136.0, 318.3, 415.3, 32.0, 104.9, 7.2, 4.7, 1095.8, 425.5, 2.0, 2.0, 2.0], "revMonthlyLabels": ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": -98.5, "revGrowthMonths": 12, "eoyDelta": -812.7, "vfEstimate": 305.3, "vfEstimateDate": "2026-12", "yeVal": 4555.3, "uplift": -5062.7, "custLatest": null, "kortetermijn": "- Areaal onboarden\n- Runway verlengen", "vf_kort": "- Dealin.Green ondersteunen door opzetten van downstream markt\n- Postie versterken in aandeelhoudersstructuur (via Supervisory Board of Coalition of the willing)\n- Management monitoren, ontwikkelingen zijn niet overtuigend\n'- (gedeeltelijke) exit via SPV", "vf_mid": "Dealin-Green past qua focus nog steeds heel goed in het Value Factory Portfolio. Alleen de waarde van het bedrijf geeft op dit moment een te hoge afhankelijkheid. Verkoop (of afsplitsing via SPV) van een deel van de aandelen is daarom urgent. Herwaardering moet plaatsvinden in Q4 2025.", "strategie": "Dealin.Green is strategisch goed gepositioneerd is in de opkomende biobased keten door het aanbod van vezelgewassen, teeltbegeleiding en een handelsplatform. De omzetontwikkeling blijft wat achter bij de verwachtingen door (i) teeltproblemen in het seizoen 2024/2025 (slecht weer, lagere groei heeft impact op vertrouwen van boeren), en (ii) de nog beperkte afzet in de downstream-keten. Als Value Factory willen we de positie in de keten versterken, met name door een actievere rol in downstream-activiteiten zoals verwerking en afzet van biobased materialen. Met de recent doorgevoerde directiewissel en een managementteam dat zich op deze volgende fase richt, verwachten wij dat Dealin.Green beter in staat zal zijn om de ketenpositie te versterken en de commerciële uitrol te versnellen.", "updated": "31-03-2026"}, {"name": "Proba", "sector": "Climate", "status": "Actief", "manager": "Sander", "rvo": "Nee", "since": "Jun 2023", "own": "—", "fv": 1240.0, "inv": 915.0, "cash": 0.0, "waarde": 1240.0, "delta": 325.0, "multiple": "1.4x", "active": true, "sparkLabels": ["2023-12", "2024-03", "2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [100.0, 471.0, 686.0, 686.0, 561.0, 918.0, 918.0, 918.0, 1240.0, 1240.0, 1240.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [36.2, 44.7, 73.7, 46.0, 56.0, 47.0, 30.0, 37.5, 91.5, 52.6, 52.6, 52.6], "revMonthlyLabels": ["2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": 45.3, "revGrowthMonths": 12, "eoyDelta": -1240.0, "vfEstimate": 0.1, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": -1239.9, "custLatest": null, "kortetermijn": "Contracten sluiten met 5 must win customers (on track)\nUitwerken hoe het zelf projecten kan doen zonder het volledige risico te hoeven ownen en wat de business case word", "vf_kort": "Challengen & Feedback geven op business case\nManagement scherp houden in prioriteitstelling en sturen op omzetgroei", "vf_mid": "Zorgen dat Proba aantrekkelijk wordt voor Series A investors zodat het verder kan opschalen en meerdere supply chains kan doen naast koffie (via fertilizers) zoals corn en dairy en green ammonia", "strategie": "Proba is bezig om een aantal grote partijen in Amerika en Brazilië aan te sluiten (denk aan Pepsi en Nestlé) die gebruik maken van de Proba ontwikkelde methodologieën en door Proba gecertificeerde carbon credits afnemen. De uitdaging voor Proba is dat veel partijen van hen verwachten dat zij end-to-end oplossingen bieden (dus niet alleen insetting, maar ook projectontwikkeling). Er wordt momenteel uitgezocht hoe Proba die projecten met externe partners kan financieren. Het risico voor Proba is dat de omzet uit carbon credits veelal pas 12 maanden na het project volgt. Voor stevige omzetgroei moeten we nog even geduldig zijn.", "updated": "31-03-2026"}, {"name": "FC-i", "sector": "Climate", "status": "Actief", "manager": "Johan", "rvo": "Ja I", "since": "Jun 2024", "own": "—", "fv": 3753.0, "inv": 1953.0, "cash": 0.0, "waarde": 3753.0, "delta": 1800.0, "multiple": "1.9x", "active": true, "sparkLabels": ["2024-06", "2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [938.0, 982.0, 1358.0, 1358.0, 1358.0, 1358.0, 3753.0, 3753.0, 3753.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [], "revMonthlyLabels": [], "revGrowthPct": null, "revGrowthMonths": 0, "eoyDelta": -3753.0, "vfEstimate": 84.7, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": -3668.3, "custLatest": null, "kortetermijn": "- Reproduceerbaar product valideren\n- 3 Product-Markt Combinaties geselecteerd met onderbouwde value proposition; minimaal 1–3 pilotdeals in concrete gesprekken\n- IP-structuur geborgd: deal-principes vastgelegd met MME en Christiaens\n- Productie- en locatiebesluit genomen: partnerkeuze (MME / eigen / licentie), Veenoord zover mogelijk afgewikkeld\n- Board-ready strategisch plan: basis voor funding-ronde (~€10M)", "vf_kort": "- waardebescherming: voorkomen dat het bedrijf vastloopt. Hiervoor is belangrijk:\n-- directie wisselen\n-- cash runway bewaken\n-- IP blocker oplossen", "vf_mid": "Waardecreatie: het bedrijf investeerbaar en schaalbaar maken", "strategie": "FC-i ontwikkelt en produceert biologisch en circulair isolatiemateriaal voor de bouwsector, gemaakt uit reststromen uit bos-, land- en tuinbouw en versterkt met mycelium om een sterk bio-composiet te vormen. Het bedrijf richt zich op het bewijzen van de technologie en het opschalen van productie. Na een aantal tegenvallers in de pilotfabriek in Veenoord is nu geswitcht naar een productiepartner (MME, Ammerzoden), met als doel een kostenefficiënt en volledig circulair alternatief te bieden voor traditionele (chemische) isolatiematerialen. Belangrijke risico’s liggen in het technisch stabiliseren van het productieproces – met name de schimmelopkweek die cruciaal is voor de productie – het succesvol opschalen van de fabriek, het behalen van certificeringen en het realiseren van voldoende commerciële projecten om de eerste volumes te verkopen.", "updated": "31-03-2026"}, {"name": "FuelFWD", "sector": "Climate", "status": "Actief", "manager": "Sander", "rvo": "Ja I", "since": "Dec 2024", "own": "—", "fv": 750.0, "inv": 750.0, "cash": 0.0, "waarde": 750.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2024-12", "2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [250.0, 250.0, 250.0, 250.0, 500.0, 500.0, 750.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [5.0, 5.0, 5.2, 8.4, 13.6], "revMonthlyLabels": ["2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": 172.0, "revGrowthMonths": 5, "eoyDelta": -750.0, "vfEstimate": 80.8, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": -669.2, "custLatest": 5, "kortetermijn": "- CLA €560k rondkrijgen met VF en NiCa", "vf_kort": "CLA €500k closen voor runway tot Q1 2027.", "vf_mid": "- Het management scherp houden op omzetgroei en klantgroei\n\nHelpen met voorbereiding Equity round Q1 2027", "strategie": "FuelFWD gaat zich in toenemende mate richten op de biomethaan sector, omdat daar de compliance uitdagingen nog groter zijn dan bij Biofuel traders. FuelFWD haalt nu €500k op (waarvan Value Factory €250k doet) ter overbrugging naar begin 2027. In de tussenperiode wil FuelFWD versnellen op Sales (+20 klanten dit jaar) en op productontwikkeling (met name een beter gebruikservaring creëren). Risico momenteel is de energiemarkt, waardoor het lastiger is om nieuwe innovatie bij traders te verkopen.", "updated": "31-03-2026"}, {"name": "Cano-Ela", "sector": "Food", "status": "Actief", "manager": "Jolanda", "rvo": "Ja I", "since": "Feb 2025", "own": "—", "fv": 190.0, "inv": 190.0, "cash": 0.0, "waarde": 190.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-03", "2025-06", "2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [190.0, 190.0, 190.0, 190.0, 190.0, 190.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [640.0], "revMonthlyLabels": ["2026-12"], "revGrowthPct": null, "revGrowthMonths": 1, "eoyDelta": -190.0, "vfEstimate": 6.8, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": -183.2, "custLatest": null, "kortetermijn": "Strategische routes/mogelijkheden bepalen (Technologisch opschalen, IP verwaarden, EFSA geregegeld krijgen)", "vf_kort": "Wietse up & running krijgen. Inzichtelijk krijgen of en hoe we nog waarde uit Cano-ela krijgen.", "vf_mid": "", "strategie": "Cano-ela focust op de verbetering van extractietechnologie voor plantaardige eiwitten, samen met R&D-partners zoals NIZO en ISPT, enkiest daarbij voor een asset-light strategie zonder eigen fabriek. Het doel is om de technologie op pilotschaal te bewijzen en zo een strategische investering of overname door oil-millbedrijven mogelijk te maken. De waarde zit vooral in het aantonen dat de technologie op grotere schaal werkt, het opbouwen van eigen intellectueel eigendom (IP) en R&D die deels met subsidies wordt gefinancierd. Belangrijke risico’s zijn nieuwe financiering, het succesvol opschalen van de technologie, afhankelijkheid van externe partners en organisatorische continuïteit, mede doordat er momenteel een interim CEO is tijdens het zwangerschapsverlof van de CEO.", "updated": "31-03-2026"}, {"name": "DG Venturial", "sector": "Climate", "status": "Actief", "manager": "Jacco", "rvo": "Ja I", "since": "Jul 2025", "own": "—", "fv": 849.0, "inv": 849.0, "cash": 0.0, "waarde": 849.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [849.0, 849.0, 849.0, 849.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [], "revMonthlyLabels": [], "revGrowthPct": null, "revGrowthMonths": 0, "eoyDelta": -849.0, "vfEstimate": null, "vfEstimateDate": null, "yeVal": null, "uplift": null, "custLatest": null, "kortetermijn": "- realisatie van 2 pilot machines\n- detailplanning, begroting en werkafspraken", "vf_kort": "- via onze rol als directeur: detailplanning, begroting en werkafspraken", "vf_mid": "", "strategie": "DG Venturial richt zich op de ontwikkeling van een energiezuinige en zeer snelle droogtechnologie voor mest en andere organische reststromen, gebaseerd op een gepatenteerde techniek met akoestische schokgolven. Het doel is om deze technologie via pilot- en demonstratieprojecten te valideren en vervolgens op grotere schaal uit te rollen in samenwerking met partners in de mestverwerkings- en agrarische keten. De waarde zit vooral in het aantonen dat de technologie op industriële schaal kan functioneren en daarmee een economisch haalbare oplossing kan bieden voor het groeiende mestoverschot en de productie van bruikbare grondstoffen uit reststromen. Belangrijke risico’s liggen in het technisch opschalen van de technologie, het realiseren van eerste commerciële installaties, de afhankelijkheid van partners en vergunningen, en het aantrekken van voldoende kapitaal voor verdere uitrol.", "updated": "31-03-2026"}, {"name": "ThuysVers", "sector": "Food", "status": "Actief", "manager": "Jolanda", "rvo": "Ja I", "since": "Oct 2025", "own": "5.0%", "fv": 500.0, "inv": 500.0, "cash": 0.0, "waarde": 500.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [500.0, 500.0, 500.0, 500.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [431.0, 495.0, 442.0, 498.0, 478.0, 523.0, 656.0, 547.0], "revMonthlyLabels": ["2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": 26.9, "revGrowthMonths": 8, "eoyDelta": 433.8, "vfEstimate": 933.8, "vfEstimateDate": "2026-12", "yeVal": 933.8, "uplift": 433.8, "custLatest": 2222, "kortetermijn": "De focus ligt op het verbeteren van winstgevende groei door hogere orderwaarde en retentie, gerealiseerd via een abonnementsmodel, assortimentuitbreiding, website- en CRO-optimalisaties, efficiëntere marketing, het verkennen van B2B-kanalen en merkversterking via o.a. de voedselbankcampagne.", "vf_kort": "Challengen/meedenken om doelstellingen te bereiken en potentieel verkennen van buy and build strategie", "vf_mid": "Break-even krijgen", "strategie": "Thuysvers verkoopt kant-en-klare maaltijden direct aan consumenten via een online platform met eigen logistiek. De focus ligt opgroei via online marketing en het verhogen vangemiddelde orderwaarde, betere brutomarges en efficiëntere bezorging naarmate volumes toenemen. Nieuwe valuedrivers zijn o.a. een abonnementsmodel, uitbreiding van het assortiment (zoals extra eetmomenten) en experimenten met B2B-verkoop. Belangrijkste risico’s liggen in marketingkosten en acquisitie (CAC), het verhogen van de gemiddelde orderwaarde en het realiseren van voldoende schaal om bezorg-en operationele kosten verder te verlagen", "updated": "31-03-2026"}, {"name": "Struck", "sector": "Built Environment", "status": "Actief", "manager": "Sander", "rvo": "Nee", "since": "Oct 2025", "own": "—", "fv": 500.0, "inv": 500.0, "cash": 0.0, "waarde": 500.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2025-09", "2025-12", "2026-03", "2026-06"], "sparkData": [500.0, 500.0, 500.0, 500.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [15.6, 15.6, 15.6, 15.6, 26.8, 30.6, 30.1], "revMonthlyLabels": ["2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revGrowthPct": 92.9, "revGrowthMonths": 7, "eoyDelta": -500.0, "vfEstimate": 98.4, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": -401.6, "custLatest": null, "kortetermijn": "Groei in klanten en omzet bij gemeentes en architecten (€1m einde jaar)\nOpleiden van gebruikers bij gemeenten zodat ze Struck meer gaan gebruiken\nComputational Checks verder ontwikkelen voor architecten\nPilot opstarten met makelaars", "vf_kort": "Scherp zijn op keuzes die Struck maakt en focus. Belangrijk dat ze focus houden op het vinden van product market fit bij architecten en", "vf_mid": "", "strategie": "Struck heeft de grootste AI powered database op het gebied van Europese wet- en regelgeving in de bouw. Het doel is om eind 2026 bij >50% van de Nederlandse gemeenten de default oplossing te worden voor het checken op vergunningsvrij bouwen. Daarnaast ontwikkelt het zijn product door voor architecten waarbij regelgeving gekoppeld wordt aan 3D BIM modellen. De samenwerking met Intergarant (tevens investeerder) is in deze succesvol omdat zij de ingang zijn naar gemeentes en medewerkers daar begeleiden bij het gebruik de Struck software. Het doel is om te groeien naar >€1m omzet zodat Struck interessant wordt voor nieuwe investeerders. Het risico is momenteel dat ze voor Architecten nog geen volledige PMF hebben (veel gratis gebruikers) en sales cycles bij gemeentes lang duren.", "updated": "31-03-2026"}, {"name": "Polybiotic Solutions", "sector": "Built Environment", "status": "Actief", "manager": "Jacco", "rvo": "Nee", "since": "Dec 2025", "own": "—", "fv": 218.4, "inv": 208.0, "cash": 0.0, "waarde": 218.4, "delta": 10.4, "multiple": "1.1x", "active": true, "sparkLabels": ["2025-12", "2026-03", "2026-06"], "sparkData": [125.0, 183.0, 218.4], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [], "revMonthlyLabels": [], "revGrowthPct": null, "revGrowthMonths": 0, "eoyDelta": -368.4, "vfEstimate": 183.0, "vfEstimateDate": "2026-03", "yeVal": -150.0, "uplift": -35.4, "custLatest": null, "kortetermijn": "Mijlpalen tranche 2:\n- Externe validatieproeven\n- Marktverkenning & 1e klantvalidatie", "vf_kort": "- Inwerken Machiel\n- Financiën overnemen en goede forecast\n- Inrichten aandeelhoudersrapportage", "vf_mid": "", "strategie": "Recent toegevoegd aan het portfolio. In februari is een nieuwe CEO gestart die momenteel werkt aan een plan voor het realiseren van de eerste mijlpalen. De focus ligt op het uitvoeren van externe validatieproeven, verdere marktverkenning en het realiseren van eerste klantvalidatie. Succesvolle afronding van deze stappen zal naar verwachting in april/mei plaatsvinden en zijn randvoorwaardelijk voor de tweede investerings­tranche.", "updated": "31-03-2026"}, {"name": "Agro4All", "sector": "AgriTech", "status": "Actief", "manager": "Sander", "rvo": "Ja I", "since": "Jan 2026", "own": "19.5%", "fv": 325.0, "inv": 325.0, "cash": 0.0, "waarde": 325.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2026-03", "2026-06", "2026-09"], "sparkData": [100.0, 175.0, 325.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [1.7, 10.6, 1.1], "revMonthlyLabels": ["2026-10", "2026-11", "2026-12"], "revGrowthPct": -35.3, "revGrowthMonths": 3, "eoyDelta": 599.7, "vfEstimate": 924.7, "vfEstimateDate": "2026-12", "yeVal": 924.7, "uplift": 599.7, "custLatest": 1, "kortetermijn": "Mijlpalen tranche 2:\n- Aantrekken van CEO\n- x premiumklanten\n- InnoGo lening", "vf_kort": "-Ondersteuning voor vinden juiste CEO\n-Begeleiden bij inrichten aandeelhoudersrapportages\n- Scherp sturen op commerciële tractie", "vf_mid": "", "strategie": "Recent toegevoegd aan het portfolio. De belangrijkste prioriteit is het aantrekken van een CEO met sterke commerciële en sectorervaring om de volgende groeifase te leiden. De strategie richt zich op het ontwikkelen van een duidelijke go-to-marketstrategie waarmee het huidige gebruikersbestand met gratis abonnementen wordt geconverteerd naar betalende premiumgebruikers. Daarnaast is het opbouwen van strategische distributie- en commerciële partnerships met partijen zoals Royal Brinkman, Van Iperen en Syngenta een belangrijke value driver voor markttoegang en schaal. Belangrijke risico’s liggen in het aantrekken van het juiste leiderschap, het succesvol monetiseren van de bestaande gebruikersbasis en het realiseren van effectieve commerciële partnerships.", "updated": "31-03-2026"}, {"name": "SAM Panels", "sector": "Built Environment", "status": "Actief", "manager": "Jacco", "rvo": "Ja II", "since": "Jan 2026", "own": "—", "fv": 102.0, "inv": 103.0, "cash": 0.0, "waarde": 102.0, "delta": -1.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2026-03", "2026-06"], "sparkData": [102.0, 102.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [191.8], "revMonthlyLabels": ["2026-12"], "revGrowthPct": null, "revGrowthMonths": 1, "eoyDelta": -102.0, "vfEstimate": 102.0, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": 0.0, "custLatest": null, "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Foamlab", "sector": "Climate", "status": "Actief", "manager": "Jacco", "rvo": "Ja II", "since": "Mar 2026", "own": "—", "fv": 250.0, "inv": 250.0, "cash": 0.0, "waarde": 250.0, "delta": 0.0, "multiple": "1.0x", "active": true, "sparkLabels": ["2026-03", "2026-06"], "sparkData": [250.0, 250.0], "revLabels": ["2026-03", "2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [], "revMonthlyLabels": [], "revGrowthPct": null, "revGrowthMonths": 0, "eoyDelta": null, "vfEstimate": 250.0, "vfEstimateDate": "2026-03", "yeVal": null, "uplift": 0.0, "custLatest": null, "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}, {"name": "Ledgnd", "sector": "AgriTech", "status": "Actief", "manager": "Sander", "rvo": "Ja I", "since": "Apr 2026", "own": "—", "fv": 833.3, "inv": 500.0, "cash": 0.0, "waarde": 833.3, "delta": 333.3, "multiple": "1.7x", "active": true, "sparkLabels": ["2026-06"], "sparkData": [833.3], "revLabels": ["2026-04", "2026-05", "2026-06", "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"], "revActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnActual": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "burnBudget": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "revMonthlyData": [], "revMonthlyLabels": [], "revGrowthPct": null, "revGrowthMonths": 0, "eoyDelta": -833.3, "vfEstimate": null, "vfEstimateDate": null, "yeVal": null, "uplift": null, "custLatest": null, "kortetermijn": "", "vf_kort": "", "vf_mid": "", "strategie": "", "updated": "31-03-2026"}];
 const SECTOR_CLR = {
   "AgriTech":"#2A593B","Climate":"#185FA5","Food":"#BA7517",
   "Out of Scope":"#888780","Built Env.":"#6B3FA0"
@@ -209,11 +314,630 @@ function fmtK(v){
 function fmtSign(v){return (v>=0?"+":"")+fmtK(v);}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 
+// ── Fondswaarde floating tooltip ─────────────────────────────────
+function buildFwTooltipHTML(q){
+  const ts   = FUND.dp_timeseries||[];
+  const idx  = ts.findIndex(r=>r.q===q);
+  if(idx<0) return '';
+  const r    = ts[idx];
+  const prev = idx>0 ? ts[idx-1] : null;
+  const fw   = r.fondswaarde||0;
+  const prevFw = prev ? prev.fondswaarde||0 : 0;
+  const fwDelta = prevFw ? fw-prevFw : null;
+
+  function deltaCell(curr, prevVal){
+    if(prevVal===null||prevVal===undefined) return '<span class="fw-tt-delta-neu">—</span>';
+    const d = curr-(prevVal||0);
+    const cls = d>0.5?'fw-tt-delta-pos':d<-0.5?'fw-tt-delta-neg':'fw-tt-delta-neu';
+    return `<span class="${cls}">${d>=0?'+':''}${fmtK(d)}</span>`;
+  }
+
+  const components = [
+    {label:'Geïnvesteerd kapitaal', val:r.geinvesteerd||0, prev:prev?.geinvesteerd||0, color:'#2A593B'},
+    {label:'Waarde-aangroei',       val:r.waarde_aangroei||0, prev:prev?.waarde_aangroei||0, color:'#00D072'},
+    {label:'Dividend (cum.)',       val:r.dividend||0, prev:prev?.dividend||0, color:'#FFCC00'},
+    {label:'Open Commitments',      val:r.commitments||0, prev:prev?.commitments||0, color:'#97C8A8'},
+  ];
+
+  const fwDeltaStr = fwDelta!==null
+    ? ` <span style="font-weight:400;opacity:.85">${fwDelta>=0?'↑':' ↓'} ${fmtK(Math.abs(fwDelta))} vs. ${prev.q}</span>`
+    : '';
+
+  let html = `<div class="fw-tooltip-head">
+    <div>${q} &nbsp;·&nbsp; Fondswaarde: ${fmtK(fw)}${fwDeltaStr}</div>
+  </div>
+  <div class="fw-tooltip-body">
+    <div class="fw-tt-row" style="padding-bottom:3px;opacity:.7">
+      <span class="fw-tt-label">Component</span>
+      <span style="text-align:right;font-size:10px;font-weight:700">Stand</span>
+      <span style="text-align:right;font-size:10px;font-weight:700">vs. vorig</span>
+    </div>`;
+
+  components.forEach(c=>{
+    html += `<div class="fw-tt-row">
+      <span class="fw-tt-label" style="display:flex;align-items:center;gap:6px">
+        <span style="width:8px;height:8px;border-radius:2px;background:${c.color};flex-shrink:0;display:inline-block"></span>
+        ${c.label}</span>
+      <span class="fw-tt-val">${fmtK(c.val)}</span>
+      <span class="fw-tt-delta-cell">${prev ? deltaCell(c.val, c.prev) : '<span class="fw-tt-delta-neu">—</span>'}</span>
+    </div>`;
+  });
+
+  // New investments this quarter
+  const deltas = (INV_DELTAS||{})[q]||[];
+  if(deltas.length){
+    html += `<div class="fw-tt-row inv-section"><span class="fw-tt-inv-head">Nieuwe investeringen dit kwartaal</span></div>`;
+    deltas.forEach(d=>{
+      const fvCls = d.delta_fv>0.5?'fw-tt-delta-pos':d.delta_fv<-0.5?'fw-tt-delta-neg':'fw-tt-delta-neu';
+      html += `<div class="fw-tt-row">
+        <span class="fw-tt-inv-name">${d.name}</span>
+        <span class="fw-tt-inv-amt">+${fmtK(d.delta_inv)}</span>
+        <span class="fw-tt-delta-cell"><span class="${fvCls}">FV ${d.delta_fv>=0?'+':''}${fmtK(d.delta_fv)}</span></span>
+      </div>`;
+    });
+  }
+  html += '</div>';
+  return html;
+}
+
+function showFwTooltip(q, mouseX, mouseY){
+  const tt = document.getElementById('fw-tooltip');
+  if(!tt) return;
+  tt.innerHTML = buildFwTooltipHTML(q);
+  tt.style.display = 'block';
+  // Position: prefer right of cursor, flip if near edge
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const tw = tt.offsetWidth || 380, th = tt.offsetHeight || 220;
+  let x = mouseX + 14, y = mouseY - 10;
+  if(x + tw > vw - 10) x = mouseX - tw - 10;
+  if(y + th > vh - 10) y = vh - th - 10;
+  if(y < 4) y = 4;
+  tt.style.left = x + 'px';
+  tt.style.top  = y + 'px';
+}
+function hideFwTooltip(){
+  const tt = document.getElementById('fw-tooltip');
+  if(tt) tt.style.display='none';
+}
+document.addEventListener('mousemove', e=>{
+  const tt = document.getElementById('fw-tooltip');
+  if(tt && tt.style.display==='block'){
+    const vw=window.innerWidth, vh=window.innerHeight;
+    const tw=tt.offsetWidth||380, th=tt.offsetHeight||220;
+    let x=e.clientX+14, y=e.clientY-10;
+    if(x+tw>vw-10) x=e.clientX-tw-10;
+    if(y+th>vh-10) y=vh-th-10;
+    if(y<4) y=4;
+    tt.style.left=x+'px'; tt.style.top=y+'px';
+  }
+});
+
+// ── Fondswaarde helpers ──────────────────────────────────────────
+function getFondswaardeAtQ(q){
+  const ts = FUND.dp_timeseries||[];
+  const row = ts.find(r=>r.q===q) || ts.slice().reverse().find(r=>r.q<=q);
+  return row ? (row.fondswaarde||0) : 0;
+}
+function getPrevQ(){
+  const idx = FUND.all_quarters.indexOf(activeQ);
+  return idx>0 ? FUND.all_quarters[idx-1] : null;
+}
+
+function showFondswaardeDrilldown(){
+  const ts   = FUND.dp_timeseries||[];
+  const body = document.getElementById('fw-modal-body');
+
+  // Summary cards for active quarter
+  const row = ts.find(r=>r.q===activeQ) || ts.slice().reverse().find(r=>r.q<=activeQ) || {};
+  const cards = [
+    {l:'Geïnvesteerd kapitaal', v: row.geinvesteerd||0, color:'#2A593B'},
+    {l:'Waarde-aangroei',       v: row.waarde_aangroei||0, color:'#00D072'},
+    {l:'Dividend (cum.)',       v: row.dividend||0, color:'#FFCC00'},
+    {l:'Open Commitments',     v: row.commitments||0, color:'#97C8A8'},
+  ];
+  let cardsHtml = '<div class="dp-grid">';
+  cards.forEach(c=>{
+    cardsHtml += `<div class="dp-card" style="border-top:3px solid ${c.color}">
+      <div class="dp-card-label">${c.l}</div>
+      <div class="dp-card-value" style="color:${c.color}">${fmtK(c.v)}</div></div>`;
+  });
+  cardsHtml += `<div class="dp-card accent"><div class="dp-card-label">Fondswaarde</div>
+    <div class="dp-card-value">${fmtK(row.fondswaarde||0)}</div></div>`;
+  cardsHtml += '</div>';
+
+  // Trend table
+  let tbl = '<div class="modal-section"><h3>Trendlijn per kwartaal (€K)</h3><div style="overflow-x:auto"><table class="kpi-tbl" style="table-layout:fixed;width:100%"><thead><tr>';
+  tbl += '<th style="width:16%">Kwartaal</th><th style="width:16%">Geïnv. kapitaal</th><th style="width:17%">Waarde-aangroei</th><th style="width:17%">Dividend</th><th style="width:17%">Open Commitments</th><th style="width:17%;font-weight:700">Fondswaarde</th>';
+  tbl += '</tr></thead><tbody>';
+  ts.forEach(r=>{
+    const active = r.q===activeQ ? ' style="background:#E8F5EE;font-weight:700"' : '';
+    tbl += `<tr${active} style="cursor:default" onmouseenter="showFwTooltip('${r.q}',event.clientX,event.clientY)" onmouseleave="hideFwTooltip()"><td>${r.q}</td><td>${fmtK(r.geinvesteerd)}</td><td>${fmtK(r.waarde_aangroei)}</td><td>${fmtK(r.dividend)}</td><td>${fmtK(r.commitments)}</td><td style="font-weight:700">${fmtK(r.fondswaarde)}</td></tr>`;
+  });
+  tbl += '</tbody></table></div></div>';
+
+  // Chart (stacked bar like the report)
+  const chartHtml = '<div class="modal-section"><h3>Fondswaarde opbouw</h3><div style="position:relative;height:280px"><canvas id="fw-chart" role="img" aria-label="Fondswaarde opbouw">Fondswaarde trend.</canvas></div></div>';
+
+  body.innerHTML = `<div class="modal-section" style="margin-bottom:4px"><span style="font-size:11px;color:var(--text-light)">Peildatum: <b>${activeQ}</b></span></div>` +
+    '<div class="modal-section"><h3>Stand per ' + activeQ + '</h3>' + cardsHtml + '</div>' + tbl + chartHtml;
+  document.getElementById('fw-modal').classList.add('open');
+
+  // Draw stacked bar chart
+  if(window._fwChart){window._fwChart.destroy();window._fwChart=null;}
+  setTimeout(()=>{
+    const ctx=document.getElementById('fw-chart'); if(!ctx) return;
+    const labels = ts.map(r=>r.q.replace('-12',' Q4').replace('-09',' Q3').replace('-06',' Q2').replace('-03',' Q1'));
+    window._fwChart = new Chart(ctx,{
+      type:'bar',
+      data:{labels, datasets:[
+        {label:'Geïnvesteerd kapitaal', data:ts.map(r=>r.geinvesteerd||0), backgroundColor:'#2A593B', stack:'s'},
+        {label:'Waarde-aangroei',       data:ts.map(r=>r.waarde_aangroei||0), backgroundColor:'#00D072', stack:'s'},
+        {label:'Dividend',             data:ts.map(r=>r.dividend||0), backgroundColor:'#FFCC00', stack:'s'},
+        {label:'Open Commitments',     data:ts.map(r=>r.commitments||0), backgroundColor:'#97C8A8', stack:'s'},
+        {label:'Fondswaarde (trendlijn)', type:'line', data:ts.map(r=>r.fondswaarde||0),
+          borderColor:'#1F3864', borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#1F3864',
+          fill:false, tension:.3, stack:undefined, order:0},
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{
+          legend:{position:'top',labels:{font:{size:11},boxWidth:12}},
+          tooltip:{enabled:false},
+          customTooltip:{
+            id:'customTooltip',
+            afterEvent(chart,args){
+              const e=args.event;
+              if(e.type==='mousemove'&&chart.tooltip._active&&chart.tooltip._active.length){
+                const idx=chart.tooltip._active[0].index;
+                const q=(FUND.dp_timeseries||[])[idx]?.q;
+                if(q) showFwTooltip(q,e.native.clientX,e.native.clientY);
+              } else if(e.type==='mouseout'){
+                hideFwTooltip();
+              }
+            }
+          },
+          _OLD_tooltip_DISABLED:{
+            callbacks:{
+              title: function(items){
+                const q = ts[items[0].dataIndex].q;
+                const prevIdx = items[0].dataIndex-1;
+                const prev = prevIdx>=0 ? ts[prevIdx] : null;
+                const fw    = ts[items[0].dataIndex].fondswaarde||0;
+                const prevFw= prev ? prev.fondswaarde||0 : 0;
+                const d = prevFw ? ' (Δ ' + (fw>=prevFw?"+":"")+fmtK(fw-prevFw)+" vs. prev)" : "";
+                return q + " — Fondswaarde: " + fmtK(fw) + d;
+              },
+              label: function(item){
+                const idx = item.dataIndex;
+                const prevIdx = idx-1;
+                const prev = prevIdx>=0 ? ts[prevIdx] : null;
+                const val = item.parsed.y;
+                let prevVal = 0;
+                if(prev){
+                  const key = ["geinvesteerd","waarde_aangroei","dividend","commitments"];
+                  const dsLabel = item.dataset.label;
+                  if(dsLabel.includes("Geïnvesteerd")) prevVal=prev.geinvesteerd||0;
+                  else if(dsLabel.includes("aangroei")) prevVal=prev.waarde_aangroei||0;
+                  else if(dsLabel.includes("Dividend")) prevVal=prev.dividend||0;
+                  else if(dsLabel.includes("Commitments")) prevVal=prev.commitments||0;
+                  else if(dsLabel.includes("trendlijn")) return null;
+                }
+                const delta = prev ? ' (Δ '+(val>=prevVal?"+":"")+fmtK(val-prevVal)+")": "";
+                return item.dataset.label+": "+fmtK(val)+delta;
+              },
+              afterBody: function(items){
+                const q = ts[items[0].dataIndex].q;
+                const deltas = INV_DELTAS[q]||[];
+                if(!deltas.length) return [];
+                const lines = [" ","Nieuwe investeringen dit kwartaal:"];
+                deltas.forEach(d=>{
+                  lines.push("  "+d.name+": +"+fmtK(d.delta_inv)+" geïnv, FV "+( d.delta_fv>=0?"+":"")+fmtK(d.delta_fv));
+                });
+                return lines;
+              }
+            }
+          }
+        },
+        scales:{
+          x:{ticks:{font:{size:10},maxRotation:45}},
+          y:{stacked:true,ticks:{font:{size:10},callback:v=>fmtK(v)}}
+        }}
+    });
+  },50);
+}
+function closeFwModal(){
+  document.getElementById('fw-modal').classList.remove('open');
+  if(window._fwChart){window._fwChart.destroy();window._fwChart=null;}
+}
+
+// ── Dry Powder helper: find DP data for any quarter ──────────────
+function getDpAtQ(q){
+  const ts = FUND.dp_timeseries||[];
+  // Exact match first
+  let row = ts.find(r=>r.q===q);
+  // If not found, use latest available before q
+  if(!row) row = ts.slice().reverse().find(r=>r.q<=q);
+  return row || FUND.dp_detail || {};
+}
+
+// ── Dry Powder modal ─────────────────────────────────────────────
+function showDryPowderDrilldown(){
+  const dp   = getDpAtQ(activeQ);
+  const ts   = FUND.dp_timeseries||[];
+  const body = document.getElementById('dp-modal-body');
+
+  // Opbouw: plusposten → gross → aftrekposten → net
+  const plusPosten = [
+    {l:'Open Commitments Privaat', v: dp.open_priv||0},
+    {l:'Open Commitments Publiek', v: dp.open_pub||0},
+    {l:'Cash',                     v: dp.cash||0},
+  ];
+  const aftrekPosten = [
+    {l:'Hard Commitments',        v: dp.hard||0},
+    {l:'Soft Commitments',        v: dp.soft||0},
+    {l:'Liquidity Pool',          v: dp.liq||0},
+    {l:'Reservering Fondskosten', v: dp.reserv||0},
+  ];
+
+  function dpCard(label, value, style=''){
+    return `<div class="dp-card${style?(' '+style):''}"><div class="dp-card-label">${label}</div><div class="dp-card-value">${fmtK(value)}</div></div>`;
+  }
+  function sepLine(label, value, color){
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:${color};border-radius:6px;margin:4px 0">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#fff">${label}</span>
+      <span style="font-size:18px;font-weight:700;color:#fff">${fmtK(value)}</span></div>`;
+  }
+
+  // Plus section
+  let html = '<div class="modal-section"><h3>Plusposten</h3><div class="dp-grid">';
+  plusPosten.forEach(c=>{ html+=dpCard(c.l, c.v); });
+  html += '</div>';
+  html += sepLine('Gross Dry Powder', dp.gross||0, '#2A593B');
+  html += '</div>';
+
+  // Minus section
+  html += '<div class="modal-section"><h3>Aftrekposten</h3><div class="dp-grid">';
+  aftrekPosten.forEach(c=>{ html+=dpCard(c.l, c.v, 'dp-card-minus'); });
+  html += '</div>';
+  html += sepLine('Net Dry Powder', dp.net||0, '#185FA5');
+  html += '</div>';
+
+  // Trend table (last 8 quarters)
+  html += '<div class="modal-section"><h3>Trendlijn per kwartaal</h3><div style="overflow-x:auto"><table class="kpi-tbl"><thead><tr>';
+  html += '<th>Kwartaal</th><th>Open Priv.</th><th>Open Pub.</th><th>Cash</th><th>Gross DP</th><th>Hard Comm.</th><th>Soft Comm.</th><th>Liq Pool</th><th>Reserv.</th><th>Net DP</th>';
+  html += '</tr></thead><tbody>';
+  const rows = ts.slice(-8);
+  rows.forEach(r=>{
+    const isActive = r.q===activeQ;
+    const style = isActive ? ' style="background:#E8F5EE;font-weight:700"' : '';
+    html+=`<tr${style}><td>${r.q}</td><td>${fmtK(r.open_priv)}</td><td>${fmtK(r.open_pub)}</td><td>${fmtK(r.cash)}</td><td style="font-weight:600">${fmtK(r.gross)}</td><td>${fmtK(r.hard)}</td><td>${fmtK(r.soft)}</td><td>${fmtK(r.liq)}</td><td>${fmtK(r.reserv)}</td><td style="font-weight:700;color:#185FA5">${fmtK(r.net)}</td></tr>`;
+  });
+  html += '</tbody></table></div></div>';
+
+  // Chart
+  html += '<div class="modal-section"><h3>Trendlijn Dry Powder</h3><div style="position:relative;height:220px"><canvas id="dp-chart" role="img" aria-label="Dry powder trendlijn">DP trend.</canvas></div></div>';
+
+  body.innerHTML = '<div class="modal-section" style="margin-bottom:4px"><span style="font-size:11px;color:var(--text-light)">Peildatum: <b>' + activeQ + '</b></span></div>' + html;
+  document.getElementById('dp-modal').classList.add('open');
+
+  // Draw chart — destroy first to fix peildatum-wissel bug
+  if(window._dpChart){window._dpChart.destroy(); window._dpChart=null;}
+  setTimeout(()=>{
+    const ctx = document.getElementById('dp-chart');
+    if(!ctx) return;
+    const labels    = ts.map(r=>r.q);
+    const grossData = ts.map(r=>r.gross||0);
+    const netData   = ts.map(r=>r.net||0);
+    window._dpChart = new Chart(ctx,{
+      type:'line',
+      data:{labels,datasets:[
+        {label:'Gross DP',data:grossData,borderColor:'#2A593B',backgroundColor:'#2A593B15',fill:true,tension:.3,pointRadius:3,borderWidth:2},
+        {label:'Net DP',  data:netData,  borderColor:'#185FA5',borderDash:[4,3],fill:false,tension:.3,pointRadius:3,borderWidth:2},
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{font:{size:11}}},
+          tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}},
+        scales:{
+          x:{ticks:{font:{size:10},maxRotation:45}},
+          y:{ticks:{font:{size:10},callback:v=>fmtK(v)}}
+        }}
+    });
+  }, 50);
+}
+function closeDpModal(){
+  document.getElementById('dp-modal').classList.remove('open');
+  if(window._dpChart){window._dpChart.destroy();window._dpChart=null;}
+}
+
+// ── KPI drilldown modal ───────────────────────────────────────────
+function showKpiDrilldown(type){
+  const qt     = QT[activeQ]||{};
+  const qtPrev = QT[getPrevQ()]||{};
+  const cos     = (qt.companies||[]).slice();
+  const cosPrev = (qtPrev.companies||[]);
+  const prevMap = {};
+  cosPrev.forEach(c=>{ prevMap[c.name]=c; });
+  const titles = {fv:'Waarde Portfolio', tv:'Fondswaarde', inv:'Geïnvesteerd in portfolio', actief:'Actieve Bedrijven'};
+  document.getElementById('kpi-modal-title').textContent = (titles[type]||type) + ' — ' + activeQ;
+  const metricFn = {fv:c=>c.fv, tv:c=>c.fv+c.cash, inv:c=>c.inv, actief:c=>c.status.toLowerCase()==='actief'?1:0}[type]||(c=>c.fv);
+  const all = cos.filter(c=>c.fv>0||c.inv>0).sort((a,b)=>metricFn(b)-metricFn(a));
+  const actief = all.filter(c=>c.status.toLowerCase()==='actief');
+  const overig = all.filter(c=>c.status.toLowerCase()!=='actief');
+
+  function dCell(curr, prev, field, isNew){
+    if(isNew) return '<span style="background:#E1F5EE;color:#0F6E56;font-size:10px;padding:1px 6px;border-radius:3px;font-weight:700">Nieuw</span>';
+    if(!prev) return '<span style="color:#bbb">—</span>';
+    const d = curr - (prev[field]||0);
+    if(Math.abs(d)<0.05) return '<span style="color:#bbb">—</span>';
+    const col = d>0?'#1D9E75':'#D85A30';
+    return '<span style="color:'+col+';font-size:10px">'+(d>0?'+':'')+fmtK(d)+'</span>';
+  }
+
+  function section(rows, label, hdrClr){
+    if(!rows.length) return '';
+    const bg=hdrClr||'#2A593B';
+    let h='<tr style="background:'+bg+'"><td colspan="7" style="color:white;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.06em;padding:6px 10px">'+label+'</td></tr>';
+    rows.forEach(c=>{
+      const prev=prevMap[c.name];
+      const sc=({AgriTech:'#2A593B',Climate:'#185FA5',Food:'#BA7517','Out of Scope':'#888780','Built Env.':'#6B3FA0'})[c.sector]||'#888';
+      const tv=c.fv+c.cash;
+      const prevTv=prev?(prev.fv||0)+(prev.cash||0):null;
+      h+='<tr>'
+        +'<td style="font-weight:600">'+esc(c.name)+'</td>'
+        +'<td style="color:'+sc+';font-size:11px">'+esc(c.sector)+'</td>'
+        +'<td>'+esc(c.status)+'</td>'
+        +'<td>'+fmtK(c.fv)+'<br>'+dCell(c.fv,prev,'fv',!prev)+'</td>'
+        +'<td>'+fmtK(c.inv)+'<br>'+dCell(c.inv,prev,'inv',!prev)+'</td>'
+        +'<td>'+(c.cash?fmtK(c.cash):'—')+'</td>'
+        +'<td style="font-weight:600">'+fmtK(tv)+'<br>'+dCell(tv,prev?{fv:prevTv}:null,'fv',!prev)+'</td>'
+        +'</tr>';
+    });
+    return h;
+  }
+
+  const thStyle='style="background:#2A593B;color:white;padding:7px 10px;text-align:left;font-size:11px"';
+  const thD='<span style="font-weight:400;font-size:9px;opacity:.75"><br>Δ vs. vorig</span>';
+  let tbl='<div style="overflow-x:auto"><table class="kpi-tbl" style="table-layout:fixed;width:100%">'
+    +'<thead><tr>'
+    +'<th '+thStyle+' style="background:#2A593B;color:white;width:20%;padding:7px 10px;text-align:left;font-size:11px">Bedrijf</th>'
+    +'<th '+thStyle+' style="background:#2A593B;color:white;width:13%;padding:7px 10px;text-align:left;font-size:11px">Sector</th>'
+    +'<th '+thStyle+' style="background:#2A593B;color:white;width:9%;padding:7px 10px;text-align:left;font-size:11px">Status</th>'
+    +'<th '+thStyle+' style="background:#2A593B;color:white;width:14%;padding:7px 10px;text-align:left;font-size:11px">Fair Value'+thD+'</th>'
+    +'<th '+thStyle+' style="background:#2A593B;color:white;width:13%;padding:7px 10px;text-align:left;font-size:11px">Geïnvesteerd'+thD+'</th>'
+    +'<th '+thStyle+' style="background:#2A593B;color:white;width:10%;padding:7px 10px;text-align:left;font-size:11px">Cash</th>'
+    +'<th '+thStyle+' style="background:#2A593B;color:white;width:14%;padding:7px 10px;text-align:left;font-size:11px">Totale Waarde'+thD+'</th>'
+    +'</tr></thead><tbody>';
+  tbl+=section(actief,'Actieve investeringen ('+actief.length+')');
+  if(overig.length) tbl+=section(overig,'Exits & Defaults ('+overig.length+')', '#3D3C3A');
+  tbl+='</tbody></table></div>';
+
+  const totFv=all.reduce((s,c)=>s+c.fv,0);
+  const totInv=all.reduce((s,c)=>s+c.inv,0);
+  const totTv=all.reduce((s,c)=>s+c.fv+c.cash,0);
+  const summary='<div style="display:flex;gap:16px;margin-top:12px;font-size:12px">'
+    +'<span><b>Totaal FV:</b> '+fmtK(totFv)+'</span>'
+    +'<span><b>Totaal inv.:</b> '+fmtK(totInv)+'</span>'
+    +'<span><b>Totaal waarde:</b> '+fmtK(totTv)+'</span>'
+    +'<span><b>Aantal:</b> '+all.length+'</span></div>';
+
+  document.getElementById('kpi-modal-body').innerHTML=tbl+summary;
+  document.getElementById('kpi-modal').classList.add('open');
+}
+function closeKpiModal(){document.getElementById('kpi-modal').classList.remove('open');}
+
+// ── Keyboard close ────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeDpModal();closeKpiModal();closeFwModal();}
+});
+
+// ── Compute investment totals for activeQ dynamically ────────────────
+function getInvTotals(q){
+  // CORRECT: compare vs year-start (Q4 of prev year), not vs prev quarter
+  const qYear = q ? q.substring(0,4) : activeQ.substring(0,4);
+  const baselineQ = (parseInt(qYear)-1) + "-12";
+  const baselineQT = QT[baselineQ] || {};
+  const baselineNames = new Set((baselineQT.companies||[]).map(c=>c.name));
+  const baselineInv = {};
+  (baselineQT.companies||[]).forEach(c=>{ baselineInv[c.name]=c.inv||0; });
+
+  // Sum all deltas from each 2026 quarter up to and including q
+  const activeYear = qYear;
+  const allYearQs = FUND.all_quarters.filter(qq=>qq.startsWith(activeYear) && qq<=q);
+
+  let nieuwAmt=0, nieuwCnt=0, foAmt=0, foCnt=0;
+  const seenNew = new Set(); const seenFo = new Set();
+
+  allYearQs.forEach(qq=>{
+    ((INV_DELTAS||{})[qq]||[]).forEach(d=>{
+      const isNew = !baselineNames.has(d.name) || (baselineInv[d.name]||0)==0;
+      if(isNew && !seenNew.has(d.name)){
+        // First time we see this new company — total invested vs baseline
+        const curInv = (QT[qq]?.companies||[]).find(c=>c.name===d.name)?.inv || 0;
+        nieuwAmt += curInv - (baselineInv[d.name]||0);
+        nieuwCnt++; seenNew.add(d.name);
+      } else if(!isNew && !seenFo.has(d.name)){
+        const curInv = (QT[qq]?.companies||[]).find(c=>c.name===d.name)?.inv || 0;
+        foAmt += curInv - (baselineInv[d.name]||0);
+        foCnt++; seenFo.add(d.name);
+      }
+    });
+  });
+
+  const dpRow = getDpAtQ(q);
+  // Hard/soft split: user-defined via spec (hard goes to new, soft goes to fo)
+  // Use delta in hard/soft commitments vs baseline
+  const dpBase = FUND.dp_timeseries ? FUND.dp_timeseries.find(r=>r.q===baselineQ) : null;
+  const hardDelta = dpRow.hard - (dpBase?dpBase.hard:0);
+  const softDelta = dpRow.soft - (dpBase?dpBase.soft:0);
+
+  return {
+    nieuw_amt: Math.round(Math.max(0,nieuwAmt)*10)/10,
+    nieuw_cnt: seenNew.size,
+    fo_amt:    Math.round(Math.max(0,foAmt)*10)/10,
+    fo_cnt:    seenFo.size,
+    hard:      Math.max(0, Math.round(hardDelta*10)/10),
+    soft:      Math.max(0, Math.round(softDelta*10)/10),
+  };
+}
+
+function buildInvLegend(k){
+  var iv=getInvTotals(activeQ);
+  var h='<div style="display:flex;gap:10px;font-size:9px;color:var(--text-light);margin-bottom:6px">';
+  h+='<span><span style="display:inline-block;width:8px;height:8px;background:#2A593B;border-radius:2px;margin-right:3px"></span>Cash '+fmtK(iv.nieuw_amt||0)+'</span>';
+  if((iv.hard||0)>0) h+='<span><span style="display:inline-block;width:8px;height:8px;background:#5B9B6E;border-radius:2px;margin-right:3px"></span>Hard '+fmtK(iv.hard||0)+'</span>';
+  if((iv.soft||0)>0) h+='<span><span style="display:inline-block;width:8px;height:8px;background:#97C8A8;border-radius:2px;margin-right:3px"></span>Soft '+fmtK(iv.soft||0)+'</span>';
+  h+='</div>'; return h;
+}
+let _kpiCharts = [];
+function renderKPIBar(){
+  _kpiCharts.forEach(c=>c&&c.destroy()); _kpiCharts=[];
+  if(!KPI || !KPI.fw_start) return;
+
+  // Build k dynamically for the selected activeQ
+  const dpRow = getDpAtQ(activeQ);
+  const dpPrev = getPrevQ() ? getDpAtQ(getPrevQ()) : null;
+
+  // Compute fondswaarde block for activeQ
+  const fw_now_q  = dpRow.fondswaarde || KPI.fw_now;
+  const fw_prev_q = dpPrev ? (dpPrev.fondswaarde||0) : 0;
+  // Start of the active YEAR (find Jan 1 of that year)
+  const activeYear = activeQ ? activeQ.substring(0,4) : '2026';
+  const prevYearQ4 = (parseInt(activeYear)-1)+'-12';
+  const dpYearStart = FUND.dp_timeseries ? FUND.dp_timeseries.find(r=>r.q===prevYearQ4) : null;
+  const fw_start_q = dpYearStart ? dpYearStart.fondswaarde : KPI.fw_start;
+  // Nieuw kapitaal = (priv+pub) at activeQ vs year start
+  const nk_q = dpYearStart
+    ? ((dpRow.open_priv!=null&&dpRow.open_pub!=null) ? ((KPI.fw_doel_jaar - fw_start_q - KPI.rend_delta) || 0) : KPI.nk_delta)
+    : KPI.nk_delta;
+
+  // nk_delta = delta in TOTAL commitments vs year start (cumulative new capital raised)
+  const nk_delta_q = (dpYearStart && dpRow.tot_comm!=null)
+    ? round1((dpRow.tot_comm||0) - (dpYearStart.tot_comm||0))
+    : KPI.nk_delta;
+  const groei_real_q  = round1(fw_now_q  - fw_start_q);
+  const groei_doel_q  = round1(KPI.fw_doel_jaar - fw_start_q);
+  const groei_q1doel_q = round1(KPI.fw_doel_q1 - fw_start_q);
+  // Div and rendement for activeQ vs year start
+  const div_q     = dpRow.dividend || 0;
+  const div_start = dpYearStart ? (dpYearStart.dividend||0) : 0;
+  const div_2026_q = round1(div_q - div_start);
+  const wa_q       = dpRow.waarde_aangroei || 0;
+  const wa_start   = dpYearStart ? (dpYearStart.waarde_aangroei||0) : 0;
+  const rend_delta_q = round1((wa_q + div_q) - (wa_start + div_start));
+
+  function round1(v){ return Math.round((v||0)*10)/10; }
+
+  const k = Object.assign({}, KPI, {
+    fw_now:        fw_now_q,
+    fw_start:      fw_start_q,
+    nk_delta:      nk_delta_q,
+    rend_delta:    rend_delta_q,
+    groei_real:    groei_real_q,
+    groei_benodigd:groei_doel_q,
+    groei_q1_doel: groei_q1doel_q,
+    div_2026:      div_2026_q,
+    div_cum:       div_q,
+    div_rend:      dpRow.div_r || KPI.div_rend,
+    div_rend_prev: dpPrev ? (dpPrev.div_r||KPI.div_rend_prev) : KPI.div_rend_prev,
+    hard_comm:     dpRow.hard || KPI.hard_comm,
+    soft_comm:     dpRow.soft || KPI.soft_comm,
+  });
+
+  function track(pct, clr, markers){
+    let h = `<div class="kb-tw"><div class="kb-tf" style="width:${Math.min(100,pct)}%;background:${clr}"></div>`;
+    markers.forEach(m=>{ h+=`<div class="kb-tm" style="left:${m.pct}%"><span class="kb-tl">${m.label}</span></div>`; });
+    h+='</div><div class="kb-ts"></div>';
+    return h;
+  }
+
+  const groeiPct  = Math.round(k.groei_real / k.groei_benodigd * 100);
+  const invNPct   = Math.round((k.inv_nieuw_real||0)   / k.inv_nieuw_doel_jaar * 100);
+  const invFPct   = Math.round((k.inv_followon_real||0) / k.inv_followon_doel_jaar * 100);
+  const divPct    = Math.round((k.div_2026||0) / k.div_doel_jaar * 100);
+
+  const html = `
+  <div class="kpi-bar">
+    <div class="section-bar"><div class="section-title">Fonds KPI's 2026</div><div class="section-bar-line"></div></div>
+    <div class="kpi-blocks">
+
+      <div class="kb">
+        <div class="kb-hdr">Fondswaarde opbouw</div>
+        <div class="kb-r"><span class="kb-l">Start 1 jan 2026</span><span class="kb-v">${fmtK(k.fw_start)}</span></div>
+        <div class="kb-r"><span class="kb-l" style="color:#2A593B">+ Nieuw kapitaal</span><span class="kb-v kb-vg">+${fmtK(k.nk_delta)}</span></div>
+        <div class="kb-r"><span class="kb-l" style="color:#D85A30">+ Rendement (Δ WA+Div)</span><span class="kb-v kb-vr">${k.rend_delta>=0?'+':''}${fmtK(k.rend_delta)}</span></div>
+        <div class="kb-tr">
+          <span class="kb-l" style="font-weight:700">Fondswaarde nu</span>
+          <span class="kb-big"><span class="kb-pulse kbp-y"></span>${fmtK(k.fw_now)}</span>
+        </div>
+        <div class="kb-sep"></div>
+        <div class="kb-r"><span class="kb-l">Benodigde groei (→€38M)</span><span class="kb-v kb-vm">+${fmtK(k.groei_benodigd)}</span></div>
+        <div class="kb-r"><span class="kb-l">Gerealiseerd Q1</span><span class="kb-v kb-vr">+${fmtK(k.groei_real)}</span></div>
+        <div class="kb-r"><span class="kb-l">Q1-doelgroei (→€30M)</span><span class="kb-v kb-vm">+${fmtK(k.groei_q1_doel)}</span></div>
+        ${track(groeiPct,'#D85A30',[
+          {pct:Math.round((k.fw_doel_q1-k.fw_start)/k.groei_benodigd*100), label:'Q1 €30M'},
+          {pct:Math.round((k.fw_doel_q2-k.fw_start)/k.groei_benodigd*100), label:'Q2 €36M'},
+          {pct:Math.round((k.fw_doel_q3-k.fw_start)/k.groei_benodigd*100), label:'Q3 €37M'},
+        ])}
+        <div class="kb-ft">
+          <span class="kb-st kb-sr">−${fmtK(k.groei_q1_doel-k.groei_real)} achter op Q1</span>
+          <span class="kb-badge kb-br">${groeiPct}% groei gerealiseerd</span>
+        </div>
+      </div>
+
+      <div class="kb">
+        <div class="kb-hdr">Investeringen 2026</div>
+        ${(function(){ const iv=getInvTotals(activeQ); return '<div class="kb-sh">Nieuwe investeringen</div><div class="kb-r"><span class="kb-l">Uitbetaald (aantal: '+iv.nieuw_cnt+' / '+k.inv_nieuw_aantal_doel+')</span><span class="kb-v">'+fmtK(iv.nieuw_amt)+' <span class="kb-vm">/ '+fmtK(k.inv_nieuw_doel_jaar)+'</span></span></div>';})()} 
+        <div class="kb-tw" style="overflow:visible"><div style="position:absolute;top:0;left:0;height:5px;border-radius:3px;background:#97C8A8;width:${Math.min(100,Math.round(((k.inv_nieuw_real||0)+(k.hard_comm||0)+(k.soft_comm||0))/k.inv_nieuw_doel_jaar*100))}%"></div><div style="position:absolute;top:0;left:0;height:5px;border-radius:3px;background:#5B9B6E;width:${Math.min(100,Math.round(((k.inv_nieuw_real||0)+(k.hard_comm||0))/k.inv_nieuw_doel_jaar*100))}%"></div><div style="position:absolute;top:0;left:0;height:5px;border-radius:3px;background:#2A593B;width:${Math.min(100,Math.round((k.inv_nieuw_real||0)/k.inv_nieuw_doel_jaar*100))}%"></div><div class="kb-tm" style="left:${Math.round(k.inv_nieuw_doel_q1/k.inv_nieuw_doel_jaar*100)}%"><span class="kb-tl">Q1 €1,75M</span></div><div class="kb-tm" style="left:${Math.round(k.inv_nieuw_doel_q2/k.inv_nieuw_doel_jaar*100)}%"><span class="kb-tl">Q2 €3,5M</span></div><div class="kb-tm" style="left:${Math.round(k.inv_nieuw_doel_q3/k.inv_nieuw_doel_jaar*100)}%"><span class="kb-tl">Q3 €5,25M</span></div></div><div class="kb-ts"></div>
+        ${buildInvLegend(k)}
+        <div class="kb-sep"></div>
+        <div class="kb-sh">Follow-on investeringen</div>
+        <div class="kb-r">${(function(){ const iv=getInvTotals(activeQ); return '<span class="kb-l">Uitbetaald (aantal: '+iv.fo_cnt+' / '+k.inv_followon_aantal_doel+')</span><span class="kb-v">'+fmtK(iv.fo_amt)+' <span class="kb-vm">/ '+fmtK(k.inv_followon_doel_jaar)+'</span></span>';})()}</div>
+        <div class="kb-tw"><div class="kb-tf" style="width:${Math.min(100,Math.round((k.inv_followon_real||0)/k.inv_followon_doel_jaar*100))}%;background:#2A593B"></div><div class="kb-tm" style="left:${Math.round(k.inv_followon_doel_q1/k.inv_followon_doel_jaar*100)}%"><span class="kb-tl">Q1</span></div><div class="kb-tm" style="left:${Math.round(k.inv_followon_doel_q2/k.inv_followon_doel_jaar*100)}%"><span class="kb-tl">Q2</span></div><div class="kb-tm" style="left:${Math.round(k.inv_followon_doel_q3/k.inv_followon_doel_jaar*100)}%"><span class="kb-tl">Q3</span></div></div><div class="kb-ts"></div>
+        <div class="kb-sep"></div>
+        <div class="kb-r" style="margin-top:4px"><span class="kb-l" style="font-weight:700">Totaal uitbetaald</span><span class="kb-v kb-vg">${(function(){ const iv=getInvTotals(activeQ); return fmtK(iv.nieuw_amt+iv.fo_amt); })()} <span class="kb-vm">/ ${fmtK(k.inv_nieuw_doel_jaar+k.inv_followon_doel_jaar)}</span></span></div>
+        <div class="kb-ft">
+          <span class="kb-st kb-sr">Achter op schema</span>
+          <span class="kb-badge kb-br">${(function(){ const iv=getInvTotals(activeQ); return Math.round((iv.nieuw_amt+iv.fo_amt)/(k.inv_nieuw_doel_jaar+k.inv_followon_doel_jaar)*100); })()}% van jaarbedrag</span>
+        </div>
+      </div>
+
+      <div class="kb">
+        <div class="kb-hdr">Dividend 2026</div>
+        <div class="kb-r"><span class="kb-l">Doelstelling jaar</span><span class="kb-v">${fmtK(k.div_doel_jaar)}</span></div>
+        <div class="kb-r"><span class="kb-l">Gerealiseerd 2026</span><span class="kb-v kb-vr">${fmtK(k.div_2026)}</span></div>
+        <div class="kb-r"><span class="kb-l">Q1-doelstelling</span><span class="kb-v kb-vm">${fmtK(k.div_doel_q1)}</span></div>
+        ${track(0,'#2A593B',[
+          {pct:Math.round(k.div_doel_q1/k.div_doel_jaar*100), label:'Q1 €500K'},
+          {pct:Math.round(k.div_doel_q2/k.div_doel_jaar*100), label:'Q2 €1M'},
+          {pct:Math.round(k.div_doel_q3/k.div_doel_jaar*100), label:'Q3 €1,5M'},
+        ])}
+        <div class="kb-sep"></div>
+        <div class="kb-r"><span class="kb-l">Cumulatief uitbetaald</span><span class="kb-v kb-vg">${fmtK(k.div_cum)}</span></div>
+        <div class="kb-r">
+          <span class="kb-l">Dividendrendement (cum.)</span>
+          <span class="kb-v" style="color:#BA7517">${(k.div_rend*100).toFixed(1)}% <span class="kb-vm">↓ was ${(k.div_rend_prev*100).toFixed(1)}%</span></span>
+        </div>
+        <div class="kb-r"><span class="kb-vm" style="font-size:10px">Kapitaal gestegen, geen uitkering Q1</span></div>
+        <div class="kb-ft">
+          <span class="kb-st kb-sr">−${fmtK(k.div_doel_q1)} achter op Q1</span>
+          <span class="kb-badge kb-br">Niet gerealiseerd</span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('kpi-bar').innerHTML = html;
+
+
+
+}
+
 function buildQtrDropdown(){
   const sel=document.getElementById("qtr-select");
   FUND.all_quarters.slice().reverse().forEach(q=>{
     const opt=document.createElement("option");
-    opt.value=q; opt.textContent=q;
+    const qt=QT[q]||{};
+    opt.value=q;
+    opt.textContent=qt.partial ? q+" (onvolledig)" : q;
     if(q===FUND.latest_quarter) opt.selected=true;
     sel.appendChild(opt);
   });
@@ -234,38 +958,39 @@ function renderKPIs(){
   const prev_q_idx=FUND.all_quarters.indexOf(activeQ)-1;
   const prev_q=prev_q_idx>=0?FUND.all_quarters[prev_q_idx]:null;
   const prev_fv=prev_q?(QT[prev_q]||{}).fv||0:0;
+  const prev_inv=prev_q?(QT[prev_q]||{}).inv||0:0;
   const dp=prev_fv>0?((tot_fv-prev_fv)/prev_fv*100).toFixed(1):null;
   const n_act=COMPANIES.filter(d=>d.active&&d.sparkLabels.includes(activeQ)).length;
   document.getElementById("kpi-strip").innerHTML=`
-    <div class="kpi">
-      <div class="kpi-label">Portfolio fair value</div>
+    <div class="kpi kpi-clickable" onclick="showKpiDrilldown('fv')">
+      <div class="kpi-label">Waarde Portfolio</div>
       <div class="kpi-value">${fmtK(tot_fv)}</div>
       <div class="kpi-delta ${dp!==null?(parseFloat(dp)>=0?"pos":"neg"):"muted"}">${dp!==null?(parseFloat(dp)>=0?"↑":"↓")+" "+Math.abs(dp)+"% vs. vorig kwartaal":"—"}</div>
-      <div style="font-size:9px;color:var(--text-light);margin-top:3px">Bron: Sheet 1 · Fair Value (€K) · som op ${activeQ}</div>
+      <div class="kpi-src">Bron: Sheet 1 · Fair Value (€K) · som op ${activeQ}</div>
     </div>
-    <div class="kpi">
-      <div class="kpi-label">Totale waarde (incl. cash)</div>
-      <div class="kpi-value">${fmtK(tot_tv)}</div>
-      <div class="kpi-delta muted">FV + ${fmtK(tot_cash)} cash</div>
-      <div style="font-size:9px;color:var(--text-light);margin-top:3px">Bron: Sheet 1 · Fair Value + Cash Cum. (€K)</div>
+    <div class="kpi kpi-clickable" onclick="showFondswaardeDrilldown()">
+      <div class="kpi-label">Fondswaarde</div>
+      <div class="kpi-value">${fmtK(getFondswaardeAtQ(activeQ))}</div>
+      <div class="kpi-delta ${getFondswaardeAtQ(activeQ)>=getFondswaardeAtQ(getPrevQ())?"pos":"neg"}">${getFondswaardeAtQ(activeQ)>0&&getFondswaardeAtQ(getPrevQ())>0?(getFondswaardeAtQ(activeQ)>=getFondswaardeAtQ(getPrevQ())?"↑":"↓")+" "+Math.abs(((getFondswaardeAtQ(activeQ)-getFondswaardeAtQ(getPrevQ()))/getFondswaardeAtQ(getPrevQ())*100).toFixed(1))+"% vs. vorig kwartaal":"—"}</div>
+      <div class="kpi-src">Bron: Sheet 4 · Fondswaarde · klik voor opbouw ▾</div>
     </div>
-    <div class="kpi">
-      <div class="kpi-label">Geïnvesteerd (cumulatief)</div>
+    <div class="kpi kpi-clickable" onclick="showKpiDrilldown('inv')">
+      <div class="kpi-label">Geïnvesteerd in portfolio</div>
       <div class="kpi-value">${fmtK(tot_inv)}</div>
-      <div class="kpi-delta muted">totaal uitbetaald</div>
-      <div style="font-size:9px;color:var(--text-light);margin-top:3px">Bron: Sheet 1 · Geïnvesteerd (€K) · som op ${activeQ}</div>
+      <div class="kpi-delta ${prev_inv>0?(tot_inv>prev_inv?'pos':'muted'):'muted'}">${prev_inv>0?(tot_inv>prev_inv?"↑":"")+" +"+fmtK(tot_inv-prev_inv)+" dit kwartaal":"—"}</div>
+      <div class="kpi-src">Bron: Sheet 1 · Geïnvesteerd (€K) · som op ${activeQ}</div>
     </div>
-    <div class="kpi">
+    <div class="kpi kpi-clickable" onclick="showDryPowderDrilldown()">
       <div class="kpi-label">Dry powder</div>
-      <div class="kpi-value">${fmtK(FUND.dry_powder)}</div>
-      <div class="kpi-delta muted">beschikbaar</div>
-      <div style="font-size:9px;color:var(--text-light);margin-top:3px">Bron: Sheet 4 · Open Commitments + Cash</div>
+      <div class="kpi-value">${fmtK(getDpAtQ(activeQ).gross)}</div>
+      <div class="kpi-delta pos">Netto: ${fmtK(getDpAtQ(activeQ).net)}</div>
+      <div class="kpi-src">Bron: Sheet 4 · klik voor details ▾</div>
     </div>
-    <div class="kpi">
+    <div class="kpi" onclick="showKpiDrilldown('actief')">
       <div class="kpi-label">Actief op ${activeQ}</div>
       <div class="kpi-value">${n_act}</div>
       <div class="kpi-delta muted">portfoliobedrijven</div>
-      <div style="font-size:9px;color:var(--text-light);margin-top:3px">Bron: Sheet 1 · Status = Actief</div>
+      <div class="kpi-src">Bron: Sheet 1 · Status = Actief · klik voor details ▾</div>
     </div>`;
 }
 
@@ -286,35 +1011,41 @@ function drawSpark(data,color,container,hlQ,allQ){
 }
 
 function buildCard(d){
-  const sc=SECTOR_CLR[d.sector]||"#888";
-  const bcls=STATUS_CLS[d.status]||"b-actief";
-  const blbl=STATUS_LBL[d.status]||"Actief";
-  const qi=d.sparkLabels.indexOf(activeQ);
-  const fv_q=qi>=0?(d.sparkData[qi]||0):d.fv;
-  // Get per-quarter invested & cash from quarterly_totals — use company sparkdata for FV,
-  // but show latest for inv/cash on the card (company-level detail)
-  const delta_q=(fv_q+d.cash)-d.inv;
+  const sc   = SECTOR_CLR[d.sector]||"#888";
+  const bcls = STATUS_CLS[d.status]||"b-actief";
+  const blbl = STATUS_LBL[d.status]||"Actief";
+  const qi   = d.sparkLabels.indexOf(activeQ);
+  const fv_q = qi>=0 ? (d.sparkData[qi]||0) : d.fv;
+  const delta_q = (fv_q+(d.cash||0))-(d.inv||0);
+  const hasRev = d.revMonthlyData && d.revMonthlyData.length>=2;
+  const hasUplift = d.yeVal && d.yeVal>0;
+  const revGrowthStr = hasRev && d.revGrowthPct!=null
+    ? (d.revGrowthPct>0?"+":"")+d.revGrowthPct+"% ("+d.revGrowthMonths+"m)" : null;
   const card=document.createElement("div");
   card.className="card";
   card.dataset.sector=d.sector;
   card.dataset.manager=d.manager;
   card.style.setProperty("--card-accent",sc);
+  const gc = d.revGrowthPct!=null&&d.revGrowthPct>0?"pos":d.revGrowthPct!=null&&d.revGrowthPct<0?"neg":"muted";
+  const sparkId = "sp-"+d.name.replace(/\W/g,"_");
   card.innerHTML=`
     <div class="c-head">
       <div><div class="c-name">${esc(d.name)}</div><div class="c-sector" style="color:${sc}">${esc(d.sector)}</div></div>
       <span class="badge ${bcls}">${blbl}</span>
     </div>
     <div class="c-metrics">
-      <div class="cm"><div class="cm-label">Fair value</div><div class="cm-value">${fmtK(fv_q)}</div></div>
-      <div class="cm"><div class="cm-label">Waardeontwikkeling</div><div class="cm-value ${delta_q>=0?"pos":"neg"}">${fmtSign(delta_q)}</div></div>
+      <div class="cm"><div class="cm-label">FV</div><div class="cm-value">${fmtK(fv_q)}</div></div>
+      <div class="cm"><div class="cm-label">Cash invested</div><div class="cm-value">${fmtK(d.inv)}</div></div>
     </div>
-    <div class="spark-wrap" id="sp-${d.name.replace(/\W/g,"_")}"></div>
+    ${hasRev?'<div class="spark-wrap" id="'+sparkId+'"></div>':'<div style="height:6px"></div>'}
+    ${hasRev&&revGrowthStr?'<div class="c-rev-row"><span class="c-rev-label">Omzetgroei</span><span class="c-rev-val '+gc+'">'+revGrowthStr+'</span></div>':""}
+    ${hasUplift?'<div class="c-rev-row"><span class="c-rev-label">VF estimate YE</span><span class="c-rev-val pos">'+fmtK(d.yeVal)+'</span></div>':""}
     <div class="c-footer">
-      <span class="c-meta">${esc(d.own)} &middot; ${esc(d.manager)}</span>
+      <span class="c-meta">${esc(d.manager)}${d.rvo&&d.rvo!=="Nee"?" · RVO":""}</span>
       <span class="c-mult">${esc(d.multiple)}</span>
     </div>`;
   card.addEventListener("click",()=>showDetail(d));
-  return {card,sc};
+  return {card,sc,sparkId,hasRev};
 }
 
 function renderOverview(){
@@ -329,15 +1060,20 @@ function renderOverview(){
     const {card,sc}=buildCard(d);
     (d.active?ag:eg).appendChild(card);
     requestAnimationFrame(()=>{
-      const wrap=card.querySelector(`#sp-${d.name.replace(/\W/g,"_")}`);
-      if(wrap&&d.sparkData.length>1) drawSpark(d.sparkData,sc,wrap,activeQ,d.sparkLabels);
+      const wrap=card.querySelector("#sp-"+d.name.replace(/\W/g,"_"));
+      if(wrap){
+        if(d.revMonthlyData&&d.revMonthlyData.length>=2)
+          drawSpark(d.revMonthlyData,sc,wrap,null,null);
+        else if(d.sparkData.length>1)
+          drawSpark(d.sparkData,sc,wrap,activeQ,d.sparkLabels);
+      }
     });
     total++;
   });
   document.getElementById("no-results").style.display=total===0?"block":"none";
 }
 
-function renderAll(){renderKPIs();renderOverview();}
+function renderAll(){renderKPIs();renderOverview();renderKPIBar();}
 
 let _charts=[];
 function destroyCharts(){_charts.forEach(c=>c&&c.destroy());_charts=[];}
@@ -376,7 +1112,7 @@ function showDetail(d){
         <div class="detail-card">
           <h3>Waardeontwikkeling</h3>
           <div class="big-num ${fv_q>=d.inv?"pos":"neg"}">${fmtK(fv_q)}</div>
-          <div class="big-sub">fair value &middot; totaal ${fmtK(waarde)} incl. cash</div>
+          <div class="big-sub">fair value &middot; totaal ${fmtK(waarde)}</div>
           <div class="stat-row"><span class="stat-label">Geïnvesteerd</span><span class="stat-value">${fmtK(d.inv)}</span></div>
           <div class="stat-row"><span class="stat-label">Gerealiseerde cash</span><span class="stat-value">${d.cash?fmtK(d.cash):"—"}</span></div>
           <div class="stat-row"><span class="stat-label">Waardeontwikkeling excl. inv.</span><span class="stat-value ${delta>=0?"pos":"neg"}">${fmtSign(delta)}</span></div>
@@ -485,44 +1221,30 @@ buildMgrDropdown();
 renderAll();
 </script>
 
-
 <div id="pw-overlay" style="position:fixed;inset:0;background:#f4f4f2;z-index:9999;display:flex;align-items:center;justify-content:center">
   <div style="background:#fff;border-radius:12px;padding:40px 48px;border:0.5px solid #e0e0e0;box-shadow:0 8px 32px rgba(42,89,59,.10);text-align:center;max-width:380px;width:90%">
-    <img src="data:image/png;base64,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" style="height:36px;margin-bottom:24px;display:block;margin-left:auto;margin-right:auto" alt="Value Factory Ventures">
+    <img src="data:image/png;base64,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" style="height:36px;display:block;margin:0 auto 20px" alt="VFV">
     <div style="font-size:22px;font-weight:700;color:#2A593B;margin-bottom:6px">Portfolio Dashboard</div>
     <div style="font-size:12px;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:28px">Intern werkdocument</div>
     <input id="pw-input" type="password" placeholder="Voer wachtwoord in"
       style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box">
-    <button onclick="checkPw()"
-      style="width:100%;padding:10px;background:#2A593B;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.03em">
-      Toegang
-    </button>
+    <button onclick="checkPw()" style="width:100%;padding:10px;background:#2A593B;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">Toegang</button>
     <div id="pw-error" style="color:#D85A30;font-size:12px;margin-top:10px;display:none">Wachtwoord onjuist. Probeer opnieuw.</div>
   </div>
 </div>
 <script>
 (function(){
-  var HASH = 'e51cc41965f3d7f9a4a47614ea298b8fac71cced886c5cb83af50c2aa74a1c24';
-  if(sessionStorage.getItem('vfv_auth')==='ok'){
-    document.getElementById('pw-overlay').style.display='none';
-  }
+  var H="e51cc41965f3d7f9a4a47614ea298b8fac71cced886c5cb83af50c2aa74a1c24";
+  if(sessionStorage.getItem('vfv_auth')==='ok'){document.getElementById('pw-overlay').style.display='none';}
   window.checkPw=function(){
-    var val=document.getElementById('pw-input').value;
-    crypto.subtle.digest('SHA-256',new TextEncoder().encode(val)).then(function(buf){
-      var hex=Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
-      if(hex===HASH){
-        sessionStorage.setItem('vfv_auth','ok');
-        document.getElementById('pw-overlay').style.display='none';
-      } else {
-        document.getElementById('pw-error').style.display='block';
-        document.getElementById('pw-input').value='';
-        document.getElementById('pw-input').focus();
-      }
+    var v=document.getElementById('pw-input').value;
+    crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(function(b){
+      var h=Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');
+      if(h===H){sessionStorage.setItem('vfv_auth','ok');document.getElementById('pw-overlay').style.display='none';}
+      else{document.getElementById('pw-error').style.display='block';document.getElementById('pw-input').value='';document.getElementById('pw-input').focus();}
     });
   };
-  document.addEventListener('keydown',function(e){
-    if(e.key==='Enter'&&document.getElementById('pw-overlay').style.display!=='none')checkPw();
-  });
+  document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('pw-overlay').style.display!=='none')checkPw();});
 })();
 </script>
 </body>
